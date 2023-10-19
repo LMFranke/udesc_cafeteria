@@ -63,7 +63,7 @@ class _MyShopItemState extends State<MyShopItem> {
                           ),
                         ),
                         Text(
-                          widget.item.price,
+                          widget.item.price.toString(),
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[600],

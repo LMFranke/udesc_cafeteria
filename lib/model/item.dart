@@ -3,7 +3,7 @@ class Item {
   int id;
   String imageUrl;
   String name;
-  String price;
+  double price;
 
   Item({
     required this.id,

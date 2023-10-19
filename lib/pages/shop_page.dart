@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:udesc_v2/components/cart_item.dart';
 import 'package:udesc_v2/components/shop_item.dart';
 import 'package:udesc_v2/database/database.dart';
-import 'package:udesc_v2/provider/cart_provider.dart';
 import 'package:udesc_v2/storage/shared_preference.dart';
 
 class ShopPage extends StatefulWidget {
@@ -57,9 +57,12 @@ class _ShopPageState extends State<ShopPage> {
                 ),
                 TextButton(
                   onPressed: () async {
-                    await SaveSharedPreference().getUser().then((value) {
-                      print("CURRENT USER: \n id: ${value?.id}\n name: ${value?.name}\n email: ${value?.email}\n password: ${value?.password}");
-                    },);
+                    await SaveSharedPreference().getUser().then(
+                      (value) {
+                        print(
+                            "CURRENT USER: \n id: ${value?.id}\n name: ${value?.name}\n email: ${value?.email}\n password: ${value?.password}");
+                      },
+                    );
                   },
                   child: const Text("See all"),
                 ),
@@ -70,15 +73,38 @@ class _ShopPageState extends State<ShopPage> {
             height: 10,
           ),
           Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount: value.getItemShoppingCount(),
-              itemBuilder: (context, index) {
-                return MyShopItem(
-                  item: value.getListItem.elementAt(index),
-                );
-              },
+            child: SizedBox(
+              height: 150,
+              child: FutureBuilder(
+                future: value.getShopItems(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done &&
+                      snapshot.data!.isNotEmpty) {
+                    print("SNAPSHOT VALUE: ${snapshot.data}");
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemBuilder: (
+                        context,
+                        index,
+                      ) {
+                        print("SNAPSHOT LISTBUILDER: ${snapshot.data!.elementAt(index)}");
+                        return MyShopItem(
+                          item: snapshot.data!.elementAt(index),
+                        );
+                      },
+                    );
+                  } else {
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
             ),
           ),
           Padding(

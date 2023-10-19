@@ -4,10 +4,10 @@ import '../model/item.dart';
 
 class CartProvider extends ChangeNotifier {
   final List<Item> _listItem = [
-    Item(id: 0, imageUrl: "imageUrl", name: "Item 1", price: "R\$15,00"),
-    Item(id: 1, imageUrl: "imageUrl", name: "Item 2", price: "R\$25,00"),
-    Item(id: 2, imageUrl: "imageUrl", name: "Item 3", price: "R\$35,00"),
-    Item(id: 3, imageUrl: "imageUrl", name: "Item 4", price: "R\$55,00"),
+    Item(id: 0, imageUrl: "imageUrl", name: "Item 1", price: 15),
+    Item(id: 1, imageUrl: "imageUrl", name: "Item 2", price: 25),
+    Item(id: 2, imageUrl: "imageUrl", name: "Item 3", price: 35),
+    Item(id: 3, imageUrl: "imageUrl", name: "Item 4", price: 55),
   ];
 
   final List<Item> _userListItem = [];
@@ -34,4 +34,5 @@ class CartProvider extends ChangeNotifier {
     _listItem.remove(item);
     notifyListeners();
   }
+
 }

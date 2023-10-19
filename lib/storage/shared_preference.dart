@@ -32,6 +32,11 @@ class SaveSharedPreference {
     return null;
   }
 
+  Future<int?> getUserId() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt("id");
+  }
+
   void logout() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove("id");

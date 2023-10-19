@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:udesc_v2/database/database.dart';
+import 'package:udesc_v2/pages/auth_pages/login_page.dart';
 import 'package:udesc_v2/pages/auth_pages/signup_page.dart';
 import 'package:udesc_v2/pages/home_page.dart';
-import 'package:udesc_v2/pages/intro_page.dart';
-import 'package:udesc_v2/pages/auth_pages/login_page.dart';
 import 'package:udesc_v2/provider/cart_provider.dart';
 
 void main() {

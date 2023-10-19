@@ -31,7 +31,7 @@ class _MyCartItemState extends State<MyCartItem> {
             child: Text(widget.item.name.characters.first),
           ),
           title: Text(widget.item.name),
-          subtitle: Text(widget.item.price),
+          subtitle: Text(widget.item.price.toString()),
           trailing: IconButton(
             onPressed: () {
               showDialog(
