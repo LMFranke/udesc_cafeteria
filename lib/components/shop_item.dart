@@ -63,7 +63,7 @@ class _MyShopItemState extends State<MyShopItem> {
                           ),
                         ),
                         Text(
-                          widget.item.price.toString(),
+                          "R\$${widget.item.price.toString()}",
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[600],
@@ -93,7 +93,7 @@ class _MyShopItemState extends State<MyShopItem> {
                                   decoration: BoxDecoration(
                                       color: Colors.green,
                                       borderRadius: BorderRadius.circular(8)),
-                                  padding: EdgeInsets.all(8),
+                                  padding: const EdgeInsets.all(8),
                                   child: const Text(
                                     "Item add",
                                     textAlign: TextAlign.center,
@@ -111,8 +111,9 @@ class _MyShopItemState extends State<MyShopItem> {
                           (valueUser) {
                             value.addItemToPerson(
                               CartsTableCompanion.insert(
-                                  userId: valueUser!.id,
-                                  itemId: widget.item.id),
+                                userId: valueUser!.id,
+                                itemId: widget.item.id,
+                              ),
                             );
                           },
                         );

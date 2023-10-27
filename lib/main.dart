@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:udesc_v2/database/database.dart';
+import 'package:udesc_v2/pages/adm_page/adm_page.dart';
 import 'package:udesc_v2/pages/auth_pages/login_page.dart';
 import 'package:udesc_v2/pages/auth_pages/signup_page.dart';
-import 'package:udesc_v2/pages/home_page.dart';
+import 'package:udesc_v2/pages/home_page/home_page.dart';
 import 'package:udesc_v2/provider/cart_provider.dart';
 
 void main() {
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/homepage": (context) => const HomePage(),
         "/signup_page": (context) => const SignUpPage(),
+        "/adm_page": (context) => const AdmPage(),
       },
     );
   }

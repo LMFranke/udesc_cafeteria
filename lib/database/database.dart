@@ -29,6 +29,8 @@ class CartsTable extends Table {
   IntColumn get userId => integer().references(UserTable, #id)();
 
   IntColumn get itemId => integer().references(ItemShoppingTable, #id)();
+
+  IntColumn get isSend => integer().nullable()();
 }
 
 class ItemShoppingTable extends Table {
@@ -44,12 +46,21 @@ class ItemShoppingTable extends Table {
   TextColumn get urlImage => text()();
 }
 
-@DriftDatabase(tables: [UserTable, CartsTable, ItemShoppingTable])
+class AdmUserTable extends Table {
+  @override
+  String get tableName => 'adm_user_table';
+
+  IntColumn get id => integer().autoIncrement()();
+
+  IntColumn get userId => integer().references(UserTable, #id)();
+}
+
+@DriftDatabase(tables: [UserTable, CartsTable, ItemShoppingTable, AdmUserTable])
 class MyDatabase extends _$MyDatabase {
   MyDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration {
@@ -62,6 +73,12 @@ class MyDatabase extends _$MyDatabase {
           await m.createTable(cartsTable);
           await m.createTable(itemShoppingTable);
         }
+        if (from < 3) {
+          await m.addColumn(cartsTable, cartsTable.isSend);
+        }
+        if (from < 4) {
+          await m.createTable(admUserTable);
+        }
       },
     );
   }
@@ -69,6 +86,8 @@ class MyDatabase extends _$MyDatabase {
   SaveSharedPreference prefs = SaveSharedPreference();
 
   Future<List<UserTableData>> get getAllPeople => select(userTable).get();
+
+  Future<List<AdmUserTableData>> get getAllAdmId => select(admUserTable).get();
 
   Future<List<CartsTableData>> get getAllCartsToPeople =>
       select(cartsTable).get();
@@ -88,6 +107,10 @@ class MyDatabase extends _$MyDatabase {
     return into(itemShoppingTable).insert(item);
   }
 
+  Future<int> addAdm(AdmUserTableCompanion adm) {
+    return into(admUserTable).insert(adm);
+  }
+
   Future<List<UserTableData>> getAuthPerson(String email, String password) {
     return (select(userTable)
           ..where((a) => a.email.equals(email) & a.password.equals(password)))
@@ -95,7 +118,14 @@ class MyDatabase extends _$MyDatabase {
   }
 
   Future<List<CartsTableData>> getCartsByPersonId(int personId) {
-    return (select(cartsTable)..where((tbl) => tbl.userId.equals(personId)))
+    return (select(cartsTable)
+          ..where(
+              (tbl) => tbl.userId.equals(personId) & tbl.isSend.isNotValue(1)))
+        .get();
+  }
+
+  Future<List<AdmUserTableData>> getAdmByPersonId(int personId) {
+    return (select(admUserTable)..where((tbl) => tbl.userId.equals(personId)))
         .get();
   }
 
@@ -129,6 +159,27 @@ class MyDatabase extends _$MyDatabase {
     return listItems;
   }
 
+  Future<List<CartsTableData>> _getAllSendItems() async {
+    return await (select(cartsTable)..where((a) => a.isSend.equals(1))).get();
+  }
+
+  Future<List<Item>> getAllSendItems() async {
+    final List<CartsTableData> list = await _getAllSendItems();
+    final List<Item> listItems = [];
+
+    for (int i = 0; i < list.length; i++) {
+      final cart = await getCartById(list.elementAt(i).itemId);
+      listItems.add(Item(
+        id: cart.first.id,
+        imageUrl: cart.first.urlImage,
+        name: cart.first.name,
+        price: cart.first.price,
+      ));
+    }
+
+    return listItems;
+  }
+
   Future<List<Item>> getItemsFromPerson() async {
     int? personId = await prefs.getUserId();
     final List<Item> list = [];
@@ -146,6 +197,14 @@ class MyDatabase extends _$MyDatabase {
     }
 
     return list;
+  }
+
+  Future updateItemsFromPerson(int itemId) async {
+    int? userId = await prefs.getUserId();
+    return (update(cartsTable)
+          ..where(
+              (tbl) => tbl.itemId.equals(itemId) & tbl.userId.equals(userId!)))
+        .write(const CartsTableCompanion(isSend: Value(1)));
   }
 }
 

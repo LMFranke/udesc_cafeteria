@@ -522,8 +522,13 @@ class $CartsTableTable extends CartsTable
       requiredDuringInsert: true,
       defaultConstraints: GeneratedColumn.constraintIsAlways(
           'REFERENCES item_shopping_table (id)'));
+  static const VerificationMeta _isSendMeta = const VerificationMeta('isSend');
   @override
-  List<GeneratedColumn> get $columns => [userId, itemId];
+  late final GeneratedColumn<int> isSend = GeneratedColumn<int>(
+      'is_send', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [userId, itemId, isSend];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -546,6 +551,10 @@ class $CartsTableTable extends CartsTable
     } else if (isInserting) {
       context.missing(_itemIdMeta);
     }
+    if (data.containsKey('is_send')) {
+      context.handle(_isSendMeta,
+          isSend.isAcceptableOrUnknown(data['is_send']!, _isSendMeta));
+    }
     return context;
   }
 
@@ -559,6 +568,8 @@ class $CartsTableTable extends CartsTable
           .read(DriftSqlType.int, data['${effectivePrefix}user_id'])!,
       itemId: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}item_id'])!,
+      isSend: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}is_send']),
     );
   }
 
@@ -571,12 +582,17 @@ class $CartsTableTable extends CartsTable
 class CartsTableData extends DataClass implements Insertable<CartsTableData> {
   final int userId;
   final int itemId;
-  const CartsTableData({required this.userId, required this.itemId});
+  final int? isSend;
+  const CartsTableData(
+      {required this.userId, required this.itemId, this.isSend});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['user_id'] = Variable<int>(userId);
     map['item_id'] = Variable<int>(itemId);
+    if (!nullToAbsent || isSend != null) {
+      map['is_send'] = Variable<int>(isSend);
+    }
     return map;
   }
 
@@ -584,6 +600,8 @@ class CartsTableData extends DataClass implements Insertable<CartsTableData> {
     return CartsTableCompanion(
       userId: Value(userId),
       itemId: Value(itemId),
+      isSend:
+          isSend == null && nullToAbsent ? const Value.absent() : Value(isSend),
     );
   }
 
@@ -593,6 +611,7 @@ class CartsTableData extends DataClass implements Insertable<CartsTableData> {
     return CartsTableData(
       userId: serializer.fromJson<int>(json['userId']),
       itemId: serializer.fromJson<int>(json['itemId']),
+      isSend: serializer.fromJson<int?>(json['isSend']),
     );
   }
   @override
@@ -601,64 +620,81 @@ class CartsTableData extends DataClass implements Insertable<CartsTableData> {
     return <String, dynamic>{
       'userId': serializer.toJson<int>(userId),
       'itemId': serializer.toJson<int>(itemId),
+      'isSend': serializer.toJson<int?>(isSend),
     };
   }
 
-  CartsTableData copyWith({int? userId, int? itemId}) => CartsTableData(
+  CartsTableData copyWith(
+          {int? userId,
+          int? itemId,
+          Value<int?> isSend = const Value.absent()}) =>
+      CartsTableData(
         userId: userId ?? this.userId,
         itemId: itemId ?? this.itemId,
+        isSend: isSend.present ? isSend.value : this.isSend,
       );
   @override
   String toString() {
     return (StringBuffer('CartsTableData(')
           ..write('userId: $userId, ')
-          ..write('itemId: $itemId')
+          ..write('itemId: $itemId, ')
+          ..write('isSend: $isSend')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(userId, itemId);
+  int get hashCode => Object.hash(userId, itemId, isSend);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is CartsTableData &&
           other.userId == this.userId &&
-          other.itemId == this.itemId);
+          other.itemId == this.itemId &&
+          other.isSend == this.isSend);
 }
 
 class CartsTableCompanion extends UpdateCompanion<CartsTableData> {
   final Value<int> userId;
   final Value<int> itemId;
+  final Value<int?> isSend;
   final Value<int> rowid;
   const CartsTableCompanion({
     this.userId = const Value.absent(),
     this.itemId = const Value.absent(),
+    this.isSend = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   CartsTableCompanion.insert({
     required int userId,
     required int itemId,
+    this.isSend = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : userId = Value(userId),
         itemId = Value(itemId);
   static Insertable<CartsTableData> custom({
     Expression<int>? userId,
     Expression<int>? itemId,
+    Expression<int>? isSend,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (userId != null) 'user_id': userId,
       if (itemId != null) 'item_id': itemId,
+      if (isSend != null) 'is_send': isSend,
       if (rowid != null) 'rowid': rowid,
     });
   }
 
   CartsTableCompanion copyWith(
-      {Value<int>? userId, Value<int>? itemId, Value<int>? rowid}) {
+      {Value<int>? userId,
+      Value<int>? itemId,
+      Value<int?>? isSend,
+      Value<int>? rowid}) {
     return CartsTableCompanion(
       userId: userId ?? this.userId,
       itemId: itemId ?? this.itemId,
+      isSend: isSend ?? this.isSend,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -672,6 +708,9 @@ class CartsTableCompanion extends UpdateCompanion<CartsTableData> {
     if (itemId.present) {
       map['item_id'] = Variable<int>(itemId.value);
     }
+    if (isSend.present) {
+      map['is_send'] = Variable<int>(isSend.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -683,7 +722,184 @@ class CartsTableCompanion extends UpdateCompanion<CartsTableData> {
     return (StringBuffer('CartsTableCompanion(')
           ..write('userId: $userId, ')
           ..write('itemId: $itemId, ')
+          ..write('isSend: $isSend, ')
           ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $AdmUserTableTable extends AdmUserTable
+    with TableInfo<$AdmUserTableTable, AdmUserTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AdmUserTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  @override
+  late final GeneratedColumn<int> userId = GeneratedColumn<int>(
+      'user_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES user_table (id)'));
+  @override
+  List<GeneratedColumn> get $columns => [id, userId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'adm_user_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<AdmUserTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('user_id')) {
+      context.handle(_userIdMeta,
+          userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta));
+    } else if (isInserting) {
+      context.missing(_userIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  AdmUserTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AdmUserTableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      userId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}user_id'])!,
+    );
+  }
+
+  @override
+  $AdmUserTableTable createAlias(String alias) {
+    return $AdmUserTableTable(attachedDatabase, alias);
+  }
+}
+
+class AdmUserTableData extends DataClass
+    implements Insertable<AdmUserTableData> {
+  final int id;
+  final int userId;
+  const AdmUserTableData({required this.id, required this.userId});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['user_id'] = Variable<int>(userId);
+    return map;
+  }
+
+  AdmUserTableCompanion toCompanion(bool nullToAbsent) {
+    return AdmUserTableCompanion(
+      id: Value(id),
+      userId: Value(userId),
+    );
+  }
+
+  factory AdmUserTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AdmUserTableData(
+      id: serializer.fromJson<int>(json['id']),
+      userId: serializer.fromJson<int>(json['userId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'userId': serializer.toJson<int>(userId),
+    };
+  }
+
+  AdmUserTableData copyWith({int? id, int? userId}) => AdmUserTableData(
+        id: id ?? this.id,
+        userId: userId ?? this.userId,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('AdmUserTableData(')
+          ..write('id: $id, ')
+          ..write('userId: $userId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, userId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AdmUserTableData &&
+          other.id == this.id &&
+          other.userId == this.userId);
+}
+
+class AdmUserTableCompanion extends UpdateCompanion<AdmUserTableData> {
+  final Value<int> id;
+  final Value<int> userId;
+  const AdmUserTableCompanion({
+    this.id = const Value.absent(),
+    this.userId = const Value.absent(),
+  });
+  AdmUserTableCompanion.insert({
+    this.id = const Value.absent(),
+    required int userId,
+  }) : userId = Value(userId);
+  static Insertable<AdmUserTableData> custom({
+    Expression<int>? id,
+    Expression<int>? userId,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (userId != null) 'user_id': userId,
+    });
+  }
+
+  AdmUserTableCompanion copyWith({Value<int>? id, Value<int>? userId}) {
+    return AdmUserTableCompanion(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (userId.present) {
+      map['user_id'] = Variable<int>(userId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AdmUserTableCompanion(')
+          ..write('id: $id, ')
+          ..write('userId: $userId')
           ..write(')'))
         .toString();
   }
@@ -695,10 +911,11 @@ abstract class _$MyDatabase extends GeneratedDatabase {
   late final $ItemShoppingTableTable itemShoppingTable =
       $ItemShoppingTableTable(this);
   late final $CartsTableTable cartsTable = $CartsTableTable(this);
+  late final $AdmUserTableTable admUserTable = $AdmUserTableTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [userTable, itemShoppingTable, cartsTable];
+      [userTable, itemShoppingTable, cartsTable, admUserTable];
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:udesc_v2/components/alert_dialog_confirm_item.dart';
+import 'package:udesc_v2/database/database.dart';
 import 'package:udesc_v2/provider/cart_provider.dart';
 
 import '../model/item.dart';
@@ -9,7 +10,9 @@ class MyCartItem extends StatefulWidget {
   final Item item;
   final int index;
 
-  const MyCartItem({super.key, required this.item, required this.index});
+  bool isSend = false;
+
+  MyCartItem({super.key, required this.item, required this.index});
 
   @override
   State<MyCartItem> createState() => _MyCartItemState();
@@ -18,7 +21,11 @@ class MyCartItem extends StatefulWidget {
 class _MyCartItemState extends State<MyCartItem> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<CartProvider>(
+
+    String subtitle = widget.isSend ? "Enviado!" : "R\$${widget.item.price.toString()}";
+    Color? iconColor = widget.isSend ? Colors.green : Colors.grey[600];
+
+    return Consumer<MyDatabase>(
       builder: (context, value, child) => Container(
         decoration: BoxDecoration(
           color: Colors.grey[100],
@@ -31,19 +38,17 @@ class _MyCartItemState extends State<MyCartItem> {
             child: Text(widget.item.name.characters.first),
           ),
           title: Text(widget.item.name),
-          subtitle: Text(widget.item.price.toString()),
+          subtitle: Text(subtitle),
           trailing: IconButton(
             onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialogConfirmItem(value: value,);
-                },
-              );
+              setState(() {
+                widget.isSend = true;
+                value.updateItemsFromPerson(widget.item.id);
+              });
             },
             icon: Icon(
               Icons.check,
-              color: Colors.grey[600],
+              color: iconColor,
             ),
           ),
         ),

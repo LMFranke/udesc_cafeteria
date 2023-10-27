@@ -135,7 +135,15 @@ class _LoginPageState extends State<LoginPage> {
                               valueAwait.first.email,
                               valueAwait.first.password,
                             );
-                            Navigator.pushNamed(context, "/homepage");
+                            value.getAdmByPersonId(valueAwait.first.id).then(
+                              (admList) {
+                                if (admList.isEmpty) {
+                                  Navigator.pushNamed(context, "/homepage");
+                                } else {
+                                  Navigator.pushNamed(context, "/adm_page");
+                                }
+                              },
+                            );
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
@@ -153,6 +161,7 @@ class _LoginPageState extends State<LoginPage> {
                         print(value);
                       },
                     );
+                    // value.addAdm(AdmUserTableCompanion.insert(userId: 2));
                   },
                 ),
               ),

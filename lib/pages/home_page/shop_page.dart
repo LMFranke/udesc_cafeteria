@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:udesc_v2/components/cart_item.dart';
 import 'package:udesc_v2/components/shop_item.dart';
 import 'package:udesc_v2/database/database.dart';
 import 'package:udesc_v2/storage/shared_preference.dart';
@@ -19,27 +18,26 @@ class _ShopPageState extends State<ShopPage> {
       builder: (context, value, child) => Column(
         children: [
           Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: Container(
-                padding: const EdgeInsets.only(
-                  top: 8,
-                  bottom: 8,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.grey[100],
-                  border: Border.all(color: Colors.grey, width: 1),
-                ),
-                constraints:
-                    const BoxConstraints.tightFor(width: double.infinity),
-                alignment: Alignment.center,
-                child: const Text(
-                  "Random text to fill",
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              )),
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            child: Container(
+              padding: const EdgeInsets.only(
+                top: 8,
+                bottom: 8,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.grey[100],
+                border: Border.all(color: Colors.grey, width: 0),
+              ),
+              constraints:
+                  const BoxConstraints.tightFor(width: double.infinity),
+              alignment: Alignment.center,
+              child: Text(
+                "Random text to fill",
+                style: TextStyle(fontSize: 18, color: Colors.grey[900]),
+              ),
+            ),
+          ),
           const SizedBox(
             height: 50,
           ),
@@ -59,8 +57,11 @@ class _ShopPageState extends State<ShopPage> {
                   onPressed: () async {
                     await SaveSharedPreference().getUser().then(
                       (value) {
-                        print(
-                            "CURRENT USER: \n id: ${value?.id}\n name: ${value?.name}\n email: ${value?.email}\n password: ${value?.password}");
+                        print("CURRENT USER: "
+                            "\n id: ${value?.id}"
+                            "\n name: ${value?.name}"
+                            "\n email: ${value?.email}"
+                            "\n password: ${value?.password}");
                       },
                     );
                   },
@@ -84,11 +85,13 @@ class _ShopPageState extends State<ShopPage> {
                     return ListView.builder(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
+                      itemCount: snapshot.data?.length,
                       itemBuilder: (
                         context,
                         index,
                       ) {
-                        print("SNAPSHOT LISTBUILDER: ${snapshot.data!.elementAt(index)}");
+                        print(
+                            "SNAPSHOT LISTBUILDER: ${snapshot.data!.elementAt(index)}");
                         return MyShopItem(
                           item: snapshot.data!.elementAt(index),
                         );
@@ -96,11 +99,14 @@ class _ShopPageState extends State<ShopPage> {
                     );
                   } else {
                     return Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: BorderRadius.circular(8),
+                      width: 150,
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        height: 50,
+                        width: 50,
+                        child:
+                            CircularProgressIndicator(color: Colors.grey[800]),
                       ),
-                      child: CircularProgressIndicator(),
                     );
                   }
                 },
@@ -111,14 +117,6 @@ class _ShopPageState extends State<ShopPage> {
             padding: const EdgeInsets.only(top: 35.0),
             child: Divider(color: Colors.grey[100]),
           ),
-          // ListView(
-          //     scrollDirection: Axis.horizontal,
-          //     shrinkWrap: true,
-          //     children: [
-          //       MyShopItem(item: CartProvider().getListItem.elementAt(0)),
-          //       MyShopItem(item: CartProvider().getListItem.elementAt(1)),
-          //       MyShopItem(item: CartProvider().getListItem.elementAt(2)),
-          //     ]),
         ],
       ),
     );

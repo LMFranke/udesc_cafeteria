@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:udesc_v2/components/bottom_nav_bar.dart';
-import 'package:udesc_v2/pages/shop_page.dart';
+import 'package:udesc_v2/pages/auth_pages/login_page.dart';
+import 'package:udesc_v2/pages/home_page/shop_page.dart';
+import 'package:udesc_v2/storage/shared_preference.dart';
 
 import 'cart_page.dart';
 
@@ -95,17 +97,28 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 25.0, bottom: 25.0),
-              child: ListTile(
-                leading: Icon(
-                  Icons.logout,
-                  color: Colors.white,
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0, bottom: 25.0),
+              child: GestureDetector(
+                child: const ListTile(
+                  leading: Icon(
+                    Icons.logout,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    "Logout",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
-                title: Text(
-                  "Logout",
-                  style: TextStyle(color: Colors.white),
-                ),
+                onTap: () {
+                  SaveSharedPreference().logout();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ),
+                  );
+                },
               ),
             ),
           ],
