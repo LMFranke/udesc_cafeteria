@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:udesc_v2/components/alert_dialog_edit_item.dart';
 import 'package:udesc_v2/database/database.dart';
+import 'package:udesc_v2/provider/provider.dart';
 
 import '../../components/shop_item.dart';
 
@@ -15,8 +16,8 @@ class ItemsPage extends StatefulWidget {
 class _ItemsPageState extends State<ItemsPage> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<MyDatabase>(
-      builder: (context, value, child) => Column(
+    return Consumer<MyProvider>(
+      builder: (context, provider, child) => Column(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -44,7 +45,7 @@ class _ItemsPageState extends State<ItemsPage> {
           ),
           Expanded(
             child: FutureBuilder(
-              future: value.getShopItems(),
+              future: provider.getShopItems(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.data!.isNotEmpty) {

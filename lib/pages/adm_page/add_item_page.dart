@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:udesc_v2/components/alert_dialog_preview_item.dart';
 import 'package:udesc_v2/database/database.dart';
 import 'package:udesc_v2/model/item.dart';
+import 'package:udesc_v2/provider/provider.dart';
 
 class AddItemPage extends StatefulWidget {
   const AddItemPage({super.key});
@@ -24,8 +25,8 @@ class _AddItemPageState extends State<AddItemPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MyDatabase>(
-      builder: (context, value, child) => Scaffold(
+    return Consumer<MyProvider>(
+      builder: (context, provider, child) => Scaffold(
         backgroundColor: Colors.grey[300],
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -203,7 +204,7 @@ class _AddItemPageState extends State<AddItemPage> {
                       ),
                       onTap: () {
                         if (_formKey.currentState!.validate()) {
-                          value.addItem(
+                          provider.addItem(
                             ItemShoppingTableCompanion.insert(
                               name: nameController.text,
                               price: double.parse(priceController.text),

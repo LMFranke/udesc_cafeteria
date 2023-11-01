@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:udesc_v2/database/database.dart';
 import 'package:udesc_v2/model/item.dart';
+import 'package:udesc_v2/provider/provider.dart';
 
 class AlertDialogEditItem extends StatefulWidget {
   final Item item;
@@ -25,8 +26,8 @@ class _AlertDialogEditItemState extends State<AlertDialogEditItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MyDatabase>(
-      builder: (context, value, child) => Form(
+    return Consumer<MyProvider>(
+      builder: (context, provider, child) => Form(
         key: _formKey,
         child: AlertDialog(
           backgroundColor: Colors.grey[300],
@@ -151,7 +152,7 @@ class _AlertDialogEditItemState extends State<AlertDialogEditItem> {
               ),
               onTap: () {
                 if (_formKey.currentState!.validate()) {
-                  value.removeItem(widget.item.id);
+                  provider.removeItem(widget.item.id);
                   Navigator.of(context).pop();
                 }
               },
@@ -171,7 +172,7 @@ class _AlertDialogEditItemState extends State<AlertDialogEditItem> {
               ),
               onTap: () {
                 if (_formKey.currentState!.validate()) {
-                  value.updateItem(ItemShoppingTableData(
+                  provider.updateItem(ItemShoppingTableData(
                     id: widget.item.id,
                     name: widget.item.name,
                     price: widget.item.price,

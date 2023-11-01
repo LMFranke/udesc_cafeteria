@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:udesc_v2/provider/cart_provider.dart';
+import 'package:udesc_v2/provider/provider.dart';
 
 class AlertDialogConfirmItem extends StatefulWidget {
 
-  final CartProvider value;
+  final MyProvider value;
   const AlertDialogConfirmItem({super.key, required this.value});
 
   @override

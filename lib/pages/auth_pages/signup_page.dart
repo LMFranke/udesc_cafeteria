@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:udesc_v2/database/database.dart';
+import 'package:udesc_v2/provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -36,8 +37,8 @@ class _SignUpPageState extends State<SignUpPage> {
         title: const Text("Create an account"),
         backgroundColor: Colors.transparent,
       ),
-      body: Consumer<MyDatabase>(
-        builder: (context, value, child) => Form(
+      body: Consumer<MyProvider>(
+        builder: (context, provider, child) => Form(
           key: _formKey,
           child: SingleChildScrollView(
             child: Column(
@@ -206,27 +207,14 @@ class _SignUpPageState extends State<SignUpPage> {
                       print("Register click!");
                       if (_formKey.currentState!.validate()) {
                         print("valideted!");
-                        value
-                            .addPerson(
+                        provider.addUser(
                           UserTableCompanion.insert(
                             name: nameController.text,
                             email: emailController.text,
                             password: passwordController.text,
                           ),
-                        )
-                            .then(
-                          (value) {
-                            print("person add!");
-                          },
                         );
                       }
-                    },
-                    onDoubleTap: () async {
-                      await value.getAllItems.then(
-                        (value) {
-                          print(value);
-                        },
-                      );
                     },
                   ),
                 ),

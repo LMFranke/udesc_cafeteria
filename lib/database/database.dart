@@ -92,11 +92,9 @@ class MyDatabase extends _$MyDatabase {
 
   Future<List<AdmUserTableData>> get getAllAdmId => select(admUserTable).get();
 
-  Future<List<CartsTableData>> get getAllCartsToPeople =>
-      select(cartsTable).get();
+  Future<List<CartsTableData>> get getAllCartsToPeople => select(cartsTable).get();
 
-  Future<List<ItemShoppingTableData>> get getAllItems =>
-      select(itemShoppingTable).get();
+  Future<List<ItemShoppingTableData>> get getAllItems => select(itemShoppingTable).get();
 
   Future<int> addPerson(UserTableCompanion person) {
     return into(userTable).insert(person);
@@ -146,76 +144,13 @@ class MyDatabase extends _$MyDatabase {
 
   Future<int> getItemShoppingCount() async {
     final countResult =
-    await customSelect('SELECT COUNT(*) AS count FROM item_shopping_table')
-        .getSingle();
+    await customSelect('SELECT COUNT(*) AS count FROM item_shopping_table').getSingle();
     return countResult.read<int>('count');
   }
 
-  Future<List<Item>> getShopItems() async {
-    final List<ItemShoppingTableData>? list = await getAllItems;
-    final List<Item> listItems = [];
-
-    if (list != null && list.isNotEmpty) {
-      for (int i = 0; i < list.length; i++) {
-        listItems.add(
-          Item(
-              id: list.elementAt(i).id,
-              imageUrl: list.elementAt(i).urlImage,
-              name: list.elementAt(i).name,
-              price: list.elementAt(i).price),
-        );
-      }
-    }
-    return listItems;
-  }
-
-  Future<List<CartsTableData>> _getAllSendItems() async {
+  Future<List<CartsTableData>> getAllSendItems() async {
     return await (select(cartsTable)
       ..where((a) => a.isSend.equals(1))).get();
-  }
-
-  Future<List<RequestItem>> getAllSendItems() async {
-    final List<CartsTableData> list = await _getAllSendItems();
-    final List<RequestItem> listItems = [];
-
-    for (int i = 0; i < list.length; i++) {
-      final cart = await getCartById(list.elementAt(i).itemId);
-      final List<UserTableData> person = await getPersonById(list.elementAt(i).userId);
-
-      listItems.add(RequestItem(
-        person: Person(
-          id: person.first.id,
-          name: person.first.name,
-          email: person.first.email,
-          password: person.first.password,
-        ),
-        id: cart.first.id,
-        imageUrl: cart.first.urlImage,
-        name: cart.first.name,
-        price: cart.first.price,
-      ));
-    }
-
-    return listItems;
-  }
-
-  Future<List<Item>> getItemsFromPerson() async {
-    int? personId = await prefs.getUserId();
-    final List<Item> list = [];
-
-    if (personId != null) {
-      final cartsPerson = await getCartsByPersonId(personId);
-      for (int i = 0; i < cartsPerson.length; i++) {
-        var cartId = await getCartById(cartsPerson.elementAt(i).itemId);
-        list.add(Item(
-            id: cartId.first.id,
-            imageUrl: cartId.first.urlImage,
-            name: cartId.first.name,
-            price: cartId.first.price));
-      }
-    }
-
-    return list;
   }
 
   void removeItem(int itemId) async {
@@ -223,7 +158,7 @@ class MyDatabase extends _$MyDatabase {
     (delete(itemShoppingTable)..where((tbl) => tbl.id.equals(itemId))).go();
   }
 
-  void removePerson(int userId) async {
+  void removeUser(int userId) async {
     (delete(cartsTable)..where((tbl) => tbl.userId.equals(userId))).go();
     (delete(admUserTable)..where((tbl) => tbl.userId.equals(userId))).go();
     (delete(userTable)..where((tbl) => tbl.id.equals(userId))).go();

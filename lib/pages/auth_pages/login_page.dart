@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:udesc_v2/database/database.dart';
+import 'package:udesc_v2/provider/provider.dart';
 import 'package:udesc_v2/storage/shared_preference.dart';
 
 class LoginPage extends StatefulWidget {
@@ -25,8 +26,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      body: Consumer<MyDatabase>(
-        builder: (context, value, child) => Form(
+      body: Consumer<MyProvider>(
+        builder: (context, provider, child) => Form(
           key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -54,8 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   controller: loginController,
                   validator: (value) {
-                    if (loginController.text.isEmpty ||
-                        loginController.text == null) {
+                    if (loginController.text.isEmpty) {
                       return "Login field is empty";
                     }
                     return null;
@@ -91,8 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   validator: (value) {
-                    if (passwordController.text.isEmpty ||
-                        passwordController.text == null) {
+                    if (passwordController.text.isEmpty) {
                       return "Password field is empty";
                     }
                     return null;
@@ -123,21 +122,21 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
-                      value
-                          .getAuthPerson(
+                      provider
+                          .getPersonByEmailAndPassword(
                               loginController.text, passwordController.text)
                           .then(
-                        (valueAwait) {
-                          if (valueAwait != null && valueAwait.isNotEmpty) {
+                        (person) {
+                          if (person != null) {
                             SaveSharedPreference().saveUser(
-                              valueAwait.first.id,
-                              valueAwait.first.name,
-                              valueAwait.first.email,
-                              valueAwait.first.password,
+                              person.id,
+                              person.name,
+                              person.email,
+                              person.password,
                             );
-                            value.getAdmByPersonId(valueAwait.first.id).then(
-                              (admList) {
-                                if (admList.isEmpty) {
+                            provider.getAdmByPersonId(person.id).then(
+                              (adm) {
+                                if (adm.isEmpty) {
                                   Navigator.pushNamed(context, "/homepage");
                                 } else {
                                   Navigator.pushNamed(context, "/adm_page");
@@ -156,12 +155,11 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   },
                   onLongPress: () async {
-                    await value.getAllPeople.then(
+                    await provider.getAllUsers().then(
                       (value) {
                         print(value);
                       },
                     );
-                    // value.addAdm(AdmUserTableCompanion.insert(userId: 2));
                   },
                 ),
               ),

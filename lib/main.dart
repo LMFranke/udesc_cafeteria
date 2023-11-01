@@ -6,21 +6,22 @@ import 'package:udesc_v2/pages/adm_page/adm_page.dart';
 import 'package:udesc_v2/pages/auth_pages/login_page.dart';
 import 'package:udesc_v2/pages/auth_pages/signup_page.dart';
 import 'package:udesc_v2/pages/home_page/home_page.dart';
-import 'package:udesc_v2/provider/cart_provider.dart';
+import 'package:udesc_v2/provider/provider.dart';
 
 void main() {
   runApp(
-    MultiProvider(
-      providers: [
-        Provider(
-          create: (context) => MyDatabase(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => CartProvider(),
-        ),
-      ],
-      child: const MyApp(),
-    ),
+    // MultiProvider(
+    //   providers: [
+    //     Provider(
+    //       create: (context) => MyDatabase(),
+    //     ),
+    //     ChangeNotifierProvider(
+    //       create: (context) => CartProvider(),
+    //     ),
+    //   ],
+    //   child: const MyApp(),
+    // ),
+      ChangeNotifierProvider(create: (context) => MyProvider(), child: const MyApp(),)
   );
 }
 

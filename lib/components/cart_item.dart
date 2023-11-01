@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:udesc_v2/components/alert_dialog_confirm_item.dart';
 import 'package:udesc_v2/database/database.dart';
-import 'package:udesc_v2/provider/cart_provider.dart';
+import 'package:udesc_v2/provider/provider.dart';
 
 import '../model/item.dart';
 
@@ -25,8 +25,8 @@ class _MyCartItemState extends State<MyCartItem> {
     String subtitle = widget.isSend ? "Enviado!" : "R\$${widget.item.price.toString()}";
     Color? iconColor = widget.isSend ? Colors.green : Colors.grey[600];
 
-    return Consumer<MyDatabase>(
-      builder: (context, value, child) => Container(
+    return Consumer<MyProvider>(
+      builder: (context, provider, child) => Container(
         decoration: BoxDecoration(
           color: Colors.grey[100],
           borderRadius: BorderRadius.circular(8),
@@ -43,7 +43,7 @@ class _MyCartItemState extends State<MyCartItem> {
             onPressed: () {
               setState(() {
                 widget.isSend = true;
-                value.updateItemsFromPerson(widget.item.id);
+                provider.updateItemSent(widget.item.id);
               });
             },
             icon: Icon(

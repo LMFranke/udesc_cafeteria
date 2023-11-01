@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:udesc_v2/components/request_item.dart';
 import 'package:udesc_v2/database/database.dart';
+import 'package:udesc_v2/provider/provider.dart';
 
 class RequestsPage extends StatefulWidget {
   const RequestsPage({super.key});
@@ -13,8 +14,8 @@ class RequestsPage extends StatefulWidget {
 class _RequestsPageState extends State<RequestsPage> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<MyDatabase>(
-      builder: (context, value, child) => Padding(
+    return Consumer<MyProvider>(
+      builder: (context, provider, child) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0),
         child: Column(
           children: [
@@ -32,7 +33,7 @@ class _RequestsPageState extends State<RequestsPage> {
               child: SizedBox(
                 height: 150,
                 child: FutureBuilder(
-                  future: value.getAllSendItems(),
+                  future: provider.getAllSendItems(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       print("SNAPSHOT VALUE: ${snapshot.data}");

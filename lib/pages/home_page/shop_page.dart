@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:udesc_v2/components/shop_item.dart';
 import 'package:udesc_v2/database/database.dart';
+import 'package:udesc_v2/provider/provider.dart';
 import 'package:udesc_v2/storage/shared_preference.dart';
 
 class ShopPage extends StatefulWidget {
@@ -14,8 +15,8 @@ class ShopPage extends StatefulWidget {
 class _ShopPageState extends State<ShopPage> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<MyDatabase>(
-      builder: (context, value, child) => Column(
+    return Consumer<MyProvider>(
+      builder: (context, provider, child) => Column(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -77,7 +78,7 @@ class _ShopPageState extends State<ShopPage> {
             child: SizedBox(
               height: 150,
               child: FutureBuilder(
-                future: value.getShopItems(),
+                future: provider.getShopItems(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done &&
                       snapshot.data!.isNotEmpty) {

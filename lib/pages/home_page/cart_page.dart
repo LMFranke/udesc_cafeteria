@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:udesc_v2/components/cart_item.dart';
 import 'package:udesc_v2/database/database.dart';
+import 'package:udesc_v2/provider/provider.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -13,8 +14,8 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<MyDatabase>(
-      builder: (context, value, child) => Padding(
+    return Consumer<MyProvider>(
+      builder: (context, provider, child) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0),
         child: Column(
           children: [
@@ -32,7 +33,7 @@ class _CartPageState extends State<CartPage> {
               child: SizedBox(
                 height: 150,
                 child: FutureBuilder(
-                  future: value.getItemsFromPerson(),
+                  future: provider.getItemsFromPerson(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done &&
                         snapshot.data!.isNotEmpty) {

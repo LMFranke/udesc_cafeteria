@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:udesc_v2/components/snack_bar.dart';
 import 'package:udesc_v2/database/database.dart';
-import 'package:udesc_v2/provider/cart_provider.dart';
+import 'package:udesc_v2/provider/provider.dart';
 import 'package:udesc_v2/storage/shared_preference.dart';
 
 import '../model/item.dart';
@@ -24,8 +24,8 @@ class MyShopItem extends StatefulWidget {
 class _MyShopItemState extends State<MyShopItem> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<MyDatabase>(
-      builder: (context, value, child) => Padding(
+    return Consumer<MyProvider>(
+      builder: (context, provider, child) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0),
         child: Container(
           width: 250,
@@ -118,7 +118,7 @@ class _MyShopItemState extends State<MyShopItem> {
                         );
                         SaveSharedPreference().getUser().then(
                           (valueUser) {
-                            value.addItemToPerson(
+                            provider.addItemToPersonCart(
                               CartsTableCompanion.insert(
                                 userId: valueUser!.id,
                                 itemId: widget.item.id,
