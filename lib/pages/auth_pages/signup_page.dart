@@ -228,17 +228,6 @@ class _SignUpPageState extends State<SignUpPage> {
                         },
                       );
                     },
-                    onLongPress: () {
-                      value.addItem(ItemShoppingTableCompanion.insert(
-                          name: "Item 1", price: 10.50, urlImage: "urlImage"));
-                      value.addItem(ItemShoppingTableCompanion.insert(
-                          name: "Item 2", price: 19.99, urlImage: "urlImage"));
-                      value.addItem(ItemShoppingTableCompanion.insert(
-                          name: "Item 3", price: 05.50, urlImage: "urlImage"));
-                      value.addItem(ItemShoppingTableCompanion.insert(
-                          name: "Item 4", price: 45.99, urlImage: "urlImage"));
-                      print("Items add!");
-                    },
                   ),
                 ),
               ],

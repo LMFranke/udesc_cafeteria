@@ -1,8 +1,12 @@
 import 'package:flutter/foundation.dart';
+import 'package:udesc_v2/database/database.dart';
 
 import '../model/item.dart';
 
 class CartProvider extends ChangeNotifier {
+
+  MyDatabase database = MyDatabase();
+
   final List<Item> _listItem = [
     Item(id: 0, imageUrl: "imageUrl", name: "Item 1", price: 15),
     Item(id: 1, imageUrl: "imageUrl", name: "Item 2", price: 25),

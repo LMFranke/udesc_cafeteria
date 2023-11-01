@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-
-import '../model/item.dart';
+import 'package:udesc_v2/model/request_item.dart';
 
 class MyRequestItem extends StatefulWidget {
-
-  final Item item;
+  final RequestItem item;
 
   const MyRequestItem({super.key, required this.item});
 
@@ -27,7 +25,7 @@ class _MyRequestItemState extends State<MyRequestItem> {
           child: Text(widget.item.name.characters.first),
         ),
         title: Text(widget.item.name),
-        subtitle: Text(widget.item.price.toString()),
+        subtitle: Text(widget.item.person.name),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:udesc_v2/database/database.dart';
+import 'package:udesc_v2/pages/adm_page/add_item_page.dart';
 import 'package:udesc_v2/pages/adm_page/adm_page.dart';
 import 'package:udesc_v2/pages/auth_pages/login_page.dart';
 import 'package:udesc_v2/pages/auth_pages/signup_page.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         "/homepage": (context) => const HomePage(),
         "/signup_page": (context) => const SignUpPage(),
         "/adm_page": (context) => const AdmPage(),
+        "/add_item_page": (context) => const AddItemPage(),
       },
     );
   }

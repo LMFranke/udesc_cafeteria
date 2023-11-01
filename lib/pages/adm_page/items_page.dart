@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:udesc_v2/components/alert_dialog_edit_item.dart';
 import 'package:udesc_v2/database/database.dart';
 
 import '../../components/shop_item.dart';
@@ -16,7 +17,6 @@ class _ItemsPageState extends State<ItemsPage> {
   Widget build(BuildContext context) {
     return Consumer<MyDatabase>(
       builder: (context, value, child) => Column(
-        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -42,8 +42,7 @@ class _ItemsPageState extends State<ItemsPage> {
           const SizedBox(
             height: 50,
           ),
-          SizedBox(
-            height: 395,
+          Expanded(
             child: FutureBuilder(
               future: value.getShopItems(),
               builder: (context, snapshot) {
@@ -60,8 +59,18 @@ class _ItemsPageState extends State<ItemsPage> {
                     ) {
                       print(
                           "SNAPSHOT LISTBUILDER: ${snapshot.data!.elementAt(index)}");
-                      return MyShopItem(
-                        item: snapshot.data!.elementAt(index),
+                      return GestureDetector(
+                        child: MyShopItem(
+                          item: snapshot.data!.elementAt(index),
+                        ),
+                        onLongPress: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialogEditItem(
+                              item: snapshot.data!.elementAt(index),
+                            ),
+                          );
+                        },
                       );
                     },
                   );
@@ -93,15 +102,18 @@ class _ItemsPageState extends State<ItemsPage> {
                   border: Border.all(color: Colors.grey, width: 0),
                 ),
                 constraints:
-                const BoxConstraints.tightFor(width: double.infinity),
+                    const BoxConstraints.tightFor(width: double.infinity),
                 alignment: Alignment.center,
                 child: Text(
                   "Add new Item",
-                  style: TextStyle(fontSize: 18, color: Colors.grey[900], decoration: TextDecoration.underline),
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey[900],
+                      decoration: TextDecoration.underline),
                 ),
               ),
               onTap: () {
-
+                Navigator.pushNamed(context, "/add_item_page");
               },
             ),
           ),

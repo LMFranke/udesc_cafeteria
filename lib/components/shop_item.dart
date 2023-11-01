@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:udesc_v2/components/snack_bar.dart';
@@ -39,9 +41,16 @@ class _MyShopItemState extends State<MyShopItem> {
                   margin: const EdgeInsets.only(top: 25.0),
                   decoration: BoxDecoration(color: Colors.grey[200]),
                   child: Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.grey[800],
-                      backgroundColor: Colors.grey[100],
+                    child: Image.network(
+                      widget.item.imageUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        print(error);
+                        print(stackTrace);
+                        return CircularProgressIndicator(
+                          color: Colors.grey[800],
+                        );
+                      },
                     ),
                   ),
                 ),
