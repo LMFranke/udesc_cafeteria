@@ -161,6 +161,10 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     );
                   },
+                  onDoubleTap: () {
+                    provider.addAdm(AdmUserTableCompanion.insert(userId: 1));
+                    print("adm add!");
+                  },
                 ),
               ),
               Padding(

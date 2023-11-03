@@ -39,7 +39,7 @@ class _MyShopItemState extends State<MyShopItem> {
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.only(top: 25.0),
-                  decoration: BoxDecoration(color: Colors.grey[200]),
+                  decoration: BoxDecoration(),
                   child: Center(
                     child: Image.network(
                       widget.item.imageUrl,

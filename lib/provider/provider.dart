@@ -7,22 +7,8 @@ import '../model/request_item.dart';
 import '../storage/shared_preference.dart';
 
 class MyProvider extends ChangeNotifier {
-
   MyDatabase database = MyDatabase();
   SaveSharedPreference prefs = SaveSharedPreference();
-
-  final List<Item> _listItem = [
-    Item(id: 0, imageUrl: "imageUrl", name: "Item 1", price: 15),
-    Item(id: 1, imageUrl: "imageUrl", name: "Item 2", price: 25),
-    Item(id: 2, imageUrl: "imageUrl", name: "Item 3", price: 35),
-    Item(id: 3, imageUrl: "imageUrl", name: "Item 4", price: 55),
-  ];
-
-  final List<Item> _userListItem = [];
-
-  List<Item> get getListItem => _listItem;
-
-  List<Item> get getUserListItem => _userListItem;
 
   Future<List<ItemShoppingTableData>> getAllItems() async {
     return await database.getAllItems;
@@ -47,7 +33,6 @@ class MyProvider extends ChangeNotifier {
 
   void addItemToPersonCart(CartsTableCompanion itemPerson) {
     database.addItemToPerson(itemPerson);
-    notifyListeners();
   }
 
   void addItem(ItemShoppingTableCompanion item) {
@@ -60,7 +45,8 @@ class MyProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Person> getPersonByEmailAndPassword(String email, String password) async {
+  Future<Person> getPersonByEmailAndPassword(
+      String email, String password) async {
     var person = await database.getAuthPerson(email, password);
     return Person(
       id: person.first.id,
@@ -117,12 +103,11 @@ class MyProvider extends ChangeNotifier {
           email: person.email,
           password: person.password,
         ),
-        id: cart.id,
+        id: list.elementAt(i).id,
         imageUrl: cart.imageUrl,
         name: cart.name,
-        price: cart.price,
+        price: cart.price, item: null,
       ));
-
     }
 
     return listItems;
@@ -136,10 +121,11 @@ class MyProvider extends ChangeNotifier {
     for (int i = 0; i < cartsPerson.length; i++) {
       var cartId = await database.getCartById(cartsPerson.elementAt(i).itemId);
       list.add(Item(
-          id: cartId.first.id,
-          imageUrl: cartId.first.urlImage,
-          name: cartId.first.name,
-          price: cartId.first.price));
+        id: cartId.first.id,
+        imageUrl: cartId.first.urlImage,
+        name: cartId.first.name,
+        price: cartId.first.price,
+      ));
     }
 
     return list;
@@ -151,21 +137,20 @@ class MyProvider extends ChangeNotifier {
 
     if (list.isNotEmpty) {
       for (int i = 0; i < list.length; i++) {
-        listItems.add(
-          Item(
-              id: list.elementAt(i).id,
-              imageUrl: list.elementAt(i).urlImage,
-              name: list.elementAt(i).name,
-              price: list.elementAt(i).price),
-        );
+        listItems.add(Item(
+          id: list.elementAt(i).id,
+          imageUrl: list.elementAt(i).urlImage,
+          name: list.elementAt(i).name,
+          price: list.elementAt(i).price,
+        ));
       }
     }
+
     return listItems;
   }
 
   void updateItemSent(int itemId) {
     database.updateItemsFromPerson(itemId);
-    notifyListeners();
   }
 
   void updateItem(ItemShoppingTableData item) async {
@@ -182,5 +167,4 @@ class MyProvider extends ChangeNotifier {
     database.removeUser(userId);
     notifyListeners();
   }
-
 }

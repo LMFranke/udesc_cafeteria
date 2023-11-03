@@ -1,14 +1,14 @@
 import 'package:udesc_v2/model/item.dart';
 import 'package:udesc_v2/model/person.dart';
 
-class RequestItem extends Item {
+class RequestItem {
+  int id;
   Person person;
+  Item item;
 
   RequestItem({
+    required this.id,
     required this.person,
-    required super.id,
-    required super.imageUrl,
-    required super.name,
-    required super.price,
+    required this.item,
   });
 }

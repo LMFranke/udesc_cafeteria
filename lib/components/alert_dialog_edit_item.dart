@@ -37,8 +37,8 @@ class _AlertDialogEditItemState extends State<AlertDialogEditItem> {
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.grey[800]),
           ),
-          content: SizedBox(
-            height: 250,
+          content: SingleChildScrollView(
+
             child: Column(
               children: [
                 TextFormField(
@@ -52,8 +52,7 @@ class _AlertDialogEditItemState extends State<AlertDialogEditItem> {
                   ),
                   controller: nameController,
                   validator: (value) {
-                    if (nameController.text.isEmpty ||
-                        nameController.text == null) {
+                    if (nameController.text.isEmpty) {
                       return "Item name field is empty";
                     }
                     return null;
@@ -74,8 +73,7 @@ class _AlertDialogEditItemState extends State<AlertDialogEditItem> {
                   ),
                   controller: priceController,
                   validator: (value) {
-                    if (priceController.text.isEmpty ||
-                        priceController.text == null) {
+                    if (priceController.text.isEmpty) {
                       return "Item price field is empty";
                     }
                     return null;
@@ -125,8 +123,7 @@ class _AlertDialogEditItemState extends State<AlertDialogEditItem> {
                   ),
                   controller: urlImageController,
                   validator: (value) {
-                    if (urlImageController.text.isEmpty ||
-                        urlImageController.text == null) {
+                    if (urlImageController.text.isEmpty) {
                       return "Item url image field is empty";
                     }
                     return null;
@@ -151,10 +148,8 @@ class _AlertDialogEditItemState extends State<AlertDialogEditItem> {
                 ),
               ),
               onTap: () {
-                if (_formKey.currentState!.validate()) {
-                  provider.removeItem(widget.item.id);
-                  Navigator.of(context).pop();
-                }
+                provider.removeItem(widget.item.id);
+                Navigator.of(context).pop();
               },
             ),
             GestureDetector(

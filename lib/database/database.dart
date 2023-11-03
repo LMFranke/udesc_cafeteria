@@ -29,6 +29,8 @@ class CartsTable extends Table {
   @override
   String get tableName => 'carts_table';
 
+  IntColumn get id => integer().autoIncrement()();
+
   IntColumn get userId => integer().references(UserTable, #id)();
 
   IntColumn get itemId => integer().references(ItemShoppingTable, #id)();
@@ -63,7 +65,7 @@ class MyDatabase extends _$MyDatabase {
   MyDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration {
@@ -81,6 +83,9 @@ class MyDatabase extends _$MyDatabase {
         }
         if (from < 4) {
           await m.createTable(admUserTable);
+        }
+        if (from < 5) {
+//          await m.addColumn(cartsTable, cartsTable.)
         }
       },
     );

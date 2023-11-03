@@ -22,9 +22,9 @@ class _MyRequestItemState extends State<MyRequestItem> {
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor: Colors.grey[300],
-          child: Text(widget.item.name.characters.first),
+          child: Text(widget.item.person.name.characters.first),
         ),
-        title: Text(widget.item.name),
+        title: Text(widget.item.person.name),
         subtitle: Text(widget.item.person.name),
       ),
     );
