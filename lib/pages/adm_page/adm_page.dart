@@ -58,7 +58,7 @@ class _AdmPageState extends State<AdmPage> {
               children: [
                 DrawerHeader(
                   child: Image.asset(
-                    "assets/images/nike_logo.png",
+                    "assets/images/udesc_logo.png",
                     color: Colors.white,
                     fit: BoxFit.fill,
                   ),
@@ -109,12 +109,7 @@ class _AdmPageState extends State<AdmPage> {
                 ),
                 onTap: () {
                   SaveSharedPreference().logout();
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginPage(),
-                    ),
-                  );
+                  Navigator.pushReplacementNamed(context, "/login_page");
                 },
               ),
             ),

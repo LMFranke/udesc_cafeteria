@@ -9,19 +9,19 @@ import 'package:udesc_v2/storage/shared_preference.dart';
 
 import '../model/item.dart';
 
-class MyShopItem extends StatefulWidget {
+class MyShopItemPreview extends StatefulWidget {
   final Item item;
 
-  const MyShopItem({
+  const MyShopItemPreview({
     super.key,
     required this.item,
   });
 
   @override
-  State<MyShopItem> createState() => _MyShopItemState();
+  State<MyShopItemPreview> createState() => _MyShopItemPreviewState();
 }
 
-class _MyShopItemState extends State<MyShopItem> {
+class _MyShopItemPreviewState extends State<MyShopItemPreview> {
   @override
   Widget build(BuildContext context) {
     return Consumer<MyProvider>(
@@ -92,46 +92,9 @@ class _MyShopItemState extends State<MyShopItem> {
                         topLeft: Radius.circular(8),
                       ),
                     ),
-                    child: IconButton(
-                      onPressed: () async {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.circular(8)),
-                                  padding: const EdgeInsets.all(8),
-                                  child: const Text(
-                                    "Item add",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            backgroundColor: Colors.transparent,
-                            elevation: 0,
-                          ),
-                        );
-                        SaveSharedPreference().getUser().then(
-                          (valueUser) {
-                            provider.addItemToPersonCart(
-                              CartsTableCompanion.insert(
-                                userId: valueUser!.id,
-                                itemId: widget.item.id,
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      icon: const Icon(
-                        Icons.add,
-                        color: Colors.white,
-                      ),
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.white,
                     ),
                   ),
                 ],

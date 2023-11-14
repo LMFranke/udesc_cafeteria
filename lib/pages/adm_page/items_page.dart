@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:udesc_v2/components/alert_dialog_edit_item.dart';
+import 'package:udesc_v2/components/shop_item_preview.dart';
 import 'package:udesc_v2/database/database.dart';
 import 'package:udesc_v2/provider/provider.dart';
 
@@ -61,7 +62,7 @@ class _ItemsPageState extends State<ItemsPage> {
                       print(
                           "SNAPSHOT LISTBUILDER: ${snapshot.data!.elementAt(index)}");
                       return GestureDetector(
-                        child: MyShopItem(
+                        child: MyShopItemPreview(
                           item: snapshot.data!.elementAt(index),
                         ),
                         onLongPress: () {

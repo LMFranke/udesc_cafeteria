@@ -20,8 +20,6 @@ class _LoginPageState extends State<LoginPage> {
 
   final FocusNode focusNodePassword = FocusNode();
 
-  // final MyDatabase db = MyDatabase();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,8 +33,8 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: 200,
                 child: Image.asset(
-                  "assets/images/nike_logo.png",
-                  color: Colors.black,
+                  "assets/images/udesc_logo.png",
+                  color: Colors.grey[700],
                 ),
               ),
               Padding(
@@ -127,29 +125,29 @@ class _LoginPageState extends State<LoginPage> {
                               loginController.text, passwordController.text)
                           .then(
                         (person) {
-                          if (person != null) {
-                            SaveSharedPreference().saveUser(
-                              person.id,
-                              person.name,
-                              person.email,
-                              person.password,
-                            );
-                            provider.getAdmByPersonId(person.id).then(
-                              (adm) {
-                                if (adm.isEmpty) {
-                                  Navigator.pushNamed(context, "/homepage");
-                                } else {
-                                  Navigator.pushNamed(context, "/adm_page");
-                                }
-                              },
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("Email or password is incorrect"),
-                              ),
-                            );
-                          }
+                          SaveSharedPreference().saveUser(
+                            person.id,
+                            person.name,
+                            person.email,
+                            person.password,
+                          );
+                          provider.getAdmByPersonId(person.id).then(
+                            (adm) {
+                              if (adm.isEmpty) {
+                                Navigator.pushReplacementNamed(context, "/homepage");
+                              } else {
+                                Navigator.pushReplacementNamed(context, "/adm_page");
+                              }
+                            },
+                          );
+                        },
+                      ).onError(
+                        (error, stackTrace) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Email or password is incorrect"),
+                            ),
+                          );
                         },
                       );
                     }

@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 DrawerHeader(
                   child: Image.asset(
-                    "assets/images/nike_logo.png",
+                    "assets/images/udesc_logo.png",
                     color: Colors.white,
                     fit: BoxFit.fill,
                   ),
@@ -112,12 +112,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onTap: () {
                   SaveSharedPreference().logout();
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginPage(),
-                    ),
-                  );
+                  Navigator.pushReplacementNamed(context, "/login_page");
                 },
               ),
             ),

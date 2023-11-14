@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:udesc_v2/database/database.dart';
 import 'package:udesc_v2/model/person.dart';
+import 'package:udesc_v2/model/user_request_item.dart';
 
 import '../model/item.dart';
 import '../model/request_item.dart';
@@ -42,6 +43,11 @@ class MyProvider extends ChangeNotifier {
 
   void addAdm(AdmUserTableCompanion adm) {
     database.addAdm(adm);
+    notifyListeners();
+  }
+
+  void addItemSent(CartsSentTableCompanion itemSent) {
+    database.addItemSent(itemSent);
     notifyListeners();
   }
 
@@ -96,35 +102,44 @@ class MyProvider extends ChangeNotifier {
       final cart = await getItemById(list.elementAt(i).itemId);
       final Person person = await getUserById(list.elementAt(i).userId);
 
-      listItems.add(RequestItem(
-        person: Person(
-          id: person.id,
-          name: person.name,
-          email: person.email,
-          password: person.password,
+      listItems.add(
+        RequestItem(
+          id: list.elementAt(i).id,
+          person: Person(
+            id: person.id,
+            name: person.name,
+            email: person.email,
+            password: person.password,
+          ),
+          item: Item(
+            id: cart.id,
+            imageUrl: cart.imageUrl,
+            name: cart.name,
+            price: cart.price,
+          ),
         ),
-        id: list.elementAt(i).id,
-        imageUrl: cart.imageUrl,
-        name: cart.name,
-        price: cart.price, item: null,
-      ));
+      );
     }
 
     return listItems;
   }
 
-  Future<List<Item>> getItemsFromPerson() async {
+  Future<List<UserRequestItem>> getItemsFromPerson() async {
     int? personId = await prefs.getUserId();
-    final List<Item> list = [];
+    final List<UserRequestItem> list = [];
 
     final cartsPerson = await getCartsByPersonId(personId!);
     for (int i = 0; i < cartsPerson.length; i++) {
       var cartId = await database.getCartById(cartsPerson.elementAt(i).itemId);
-      list.add(Item(
-        id: cartId.first.id,
-        imageUrl: cartId.first.urlImage,
-        name: cartId.first.name,
-        price: cartId.first.price,
+
+      list.add(UserRequestItem(
+        id: cartsPerson.elementAt(i).id,
+        item: Item(
+          id: cartId.first.id,
+          imageUrl: cartId.first.urlImage,
+          name: cartId.first.name,
+          price: cartId.first.price,
+        ),
       ));
     }
 
@@ -160,6 +175,11 @@ class MyProvider extends ChangeNotifier {
 
   void removeItem(int itemId) {
     database.removeItem(itemId);
+    notifyListeners();
+  }
+
+  void removeItemSent(int itemId) {
+    database.removeItemSent(itemId);
     notifyListeners();
   }
 

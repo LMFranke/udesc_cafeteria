@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:udesc_v2/components/cart_item.dart';
-import 'package:udesc_v2/database/database.dart';
 import 'package:udesc_v2/provider/provider.dart';
 
 class CartPage extends StatefulWidget {

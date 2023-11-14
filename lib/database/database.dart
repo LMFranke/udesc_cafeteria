@@ -4,11 +4,7 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-import 'package:udesc_v2/model/item.dart';
-import 'package:udesc_v2/model/request_item.dart';
 import 'package:udesc_v2/storage/shared_preference.dart';
-
-import '../model/person.dart';
 
 part 'database.g.dart';
 
@@ -60,12 +56,21 @@ class AdmUserTable extends Table {
   IntColumn get userId => integer().references(UserTable, #id)();
 }
 
-@DriftDatabase(tables: [UserTable, CartsTable, ItemShoppingTable, AdmUserTable])
+class CartsSentTable extends Table {
+  @override
+  String get tableName => 'carts_sent_table';
+
+  IntColumn get id => integer().autoIncrement()();
+
+  IntColumn get itemSentId => integer().references(CartsTable, #id)();
+}
+
+@DriftDatabase(tables: [UserTable, CartsTable, ItemShoppingTable, AdmUserTable, CartsSentTable])
 class MyDatabase extends _$MyDatabase {
   MyDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration {
@@ -85,7 +90,11 @@ class MyDatabase extends _$MyDatabase {
           await m.createTable(admUserTable);
         }
         if (from < 5) {
-//          await m.addColumn(cartsTable, cartsTable.)
+          await m.addColumn(cartsTable, cartsTable.id);
+        }
+        if (from < 6) {
+          // await m.createTable(cartsSentTable);
+          await m.deleteTable($CartsSentTableTable.$name);
         }
       },
     );
@@ -100,6 +109,8 @@ class MyDatabase extends _$MyDatabase {
   Future<List<CartsTableData>> get getAllCartsToPeople => select(cartsTable).get();
 
   Future<List<ItemShoppingTableData>> get getAllItems => select(itemShoppingTable).get();
+
+  Future<List<CartsSentTableData>> get getAllItemsSent => select(cartsSentTable).get();
 
   Future<int> addPerson(UserTableCompanion person) {
     return into(userTable).insert(person);
@@ -117,50 +128,49 @@ class MyDatabase extends _$MyDatabase {
     return into(admUserTable).insert(adm);
   }
 
+  Future<int> addItemSent(CartsSentTableCompanion itemSent) {
+    return into(cartsSentTable).insert(itemSent);
+  }
+
   Future<List<UserTableData>> getAuthPerson(String email, String password) {
     return (select(userTable)
-      ..where((a) => a.email.equals(email) & a.password.equals(password)))
+          ..where((a) => a.email.equals(email) & a.password.equals(password)))
         .get();
   }
 
   Future<List<CartsTableData>> getCartsByPersonId(int personId) {
-    return (select(cartsTable)
-      ..where(
-              (tbl) => tbl.userId.equals(personId) & tbl.isSend.isNotValue(1)))
-        .get();
+    return (select(cartsTable)..where(
+              (tbl) => tbl.userId.equals(personId) & tbl.isSend.isNotValue(1))).get();
   }
 
   Future<List<AdmUserTableData>> getAdmByPersonId(int personId) {
-    return (select(admUserTable)
-      ..where((tbl) => tbl.userId.equals(personId)))
-        .get();
+    return (select(admUserTable)..where((tbl) => tbl.userId.equals(personId))).get();
   }
 
   Future<List<UserTableData>> getPersonById(int personId) {
-    return (select(userTable)
-      ..where((tbl) => tbl.id.equals(personId))).get();
+    return (select(userTable)..where((tbl) => tbl.id.equals(personId))).get();
   }
 
   Future<List<ItemShoppingTableData>> getCartById(int cartId) {
-    return (select(itemShoppingTable)
-      ..where((tbl) => tbl.id.equals(cartId)))
-        .get();
+    return (select(itemShoppingTable)..where((tbl) => tbl.id.equals(cartId))).get();
   }
 
   Future<int> getItemShoppingCount() async {
-    final countResult =
-    await customSelect('SELECT COUNT(*) AS count FROM item_shopping_table').getSingle();
+    final countResult = await customSelect('SELECT COUNT(*) AS count FROM item_shopping_table').getSingle();
     return countResult.read<int>('count');
   }
 
   Future<List<CartsTableData>> getAllSendItems() async {
-    return await (select(cartsTable)
-      ..where((a) => a.isSend.equals(1))).get();
+    return await (select(cartsTable)..where((a) => a.isSend.equals(1))).get();
   }
 
   void removeItem(int itemId) async {
     (delete(cartsTable)..where((tbl) => tbl.itemId.equals(itemId))).go();
     (delete(itemShoppingTable)..where((tbl) => tbl.id.equals(itemId))).go();
+  }
+
+  void removeItemSent(int itemId) async {
+    (delete(cartsTable)..where((tbl) => tbl.id.equals(itemId))).go();
   }
 
   void removeUser(int userId) async {
@@ -175,16 +185,14 @@ class MyDatabase extends _$MyDatabase {
 
   Future updateItemsFromPerson(int itemId) async {
     int? userId = await prefs.getUserId();
-    return (update(cartsTable)
-      ..where(
-              (tbl) => tbl.itemId.equals(itemId) & tbl.userId.equals(userId!)))
+    return (update(cartsTable)..where((tbl) => tbl.id.equals(itemId) & tbl.userId.equals(userId!)))
         .write(const CartsTableCompanion(isSend: Value(1)));
   }
 }
 
 LazyDatabase _openConnection() {
   return LazyDatabase(
-        () async {
+    () async {
       final dbFolder = await getApplicationDocumentsDirectory();
       final file = File(p.join(dbFolder.path, 'db.sqlite'));
       return NativeDatabase.createInBackground(file);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:udesc_v2/components/shop_item.dart';
+import 'package:udesc_v2/components/shop_item_preview.dart';
 
 import '../model/item.dart';
 
@@ -26,7 +27,7 @@ class _AlertDialogPreviewItemState extends State<AlertDialogPreviewItem> {
       ),
       content: Container(
         height: 325,
-        child: MyShopItem(item: widget.item),
+        child: MyShopItemPreview(item: widget.item),
       ),
       actions: [
         GestureDetector(
