@@ -36,7 +36,6 @@ class _CartPageState extends State<CartPage> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done &&
                         snapshot.data!.isNotEmpty) {
-                      print("SNAPSHOT VALUE: ${snapshot.data}");
                       return ListView.builder(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
@@ -45,8 +44,6 @@ class _CartPageState extends State<CartPage> {
                           context,
                           index,
                         ) {
-                          print(
-                              "SNAPSHOT LISTBUILDER: ${snapshot.data!.elementAt(index)}");
                           return MyCartItem(
                             item: snapshot.data!.elementAt(index),
                             index: index,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:udesc_v2/components/shop_item.dart';
 import 'package:udesc_v2/components/shop_item_preview.dart';
 
 import '../model/item.dart';
@@ -25,7 +24,7 @@ class _AlertDialogPreviewItemState extends State<AlertDialogPreviewItem> {
         textAlign: TextAlign.center,
         style: TextStyle(color: Colors.grey[800]),
       ),
-      content: Container(
+      content: SizedBox(
         height: 325,
         child: MyShopItemPreview(item: widget.item),
       ),

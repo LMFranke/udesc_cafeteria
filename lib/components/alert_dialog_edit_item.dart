@@ -167,12 +167,12 @@ class _AlertDialogEditItemState extends State<AlertDialogEditItem> {
               ),
               onTap: () {
                 if (_formKey.currentState!.validate()) {
-                  provider.updateItem(ItemShoppingTableData(
+                  provider.updateItem(
                     id: widget.item.id,
                     name: widget.item.name,
                     price: widget.item.price,
                     urlImage: widget.item.imageUrl,
-                  ));
+                  );
                   Navigator.of(context).pop();
                 }
               },

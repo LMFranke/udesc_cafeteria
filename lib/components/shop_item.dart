@@ -1,9 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:udesc_v2/components/snack_bar.dart';
-import 'package:udesc_v2/database/database.dart';
 import 'package:udesc_v2/provider/provider.dart';
 import 'package:udesc_v2/storage/shared_preference.dart';
 
@@ -39,15 +35,11 @@ class _MyShopItemState extends State<MyShopItem> {
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.only(top: 25.0),
-                  decoration: BoxDecoration(),
                   child: Center(
                     child: Image.network(
                       widget.item.imageUrl,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
-                        print(widget.item.imageUrl);
-                        print(error);
-                        print(stackTrace);
                         return CircularProgressIndicator(
                           color: Colors.grey[800],
                         );
@@ -120,10 +112,8 @@ class _MyShopItemState extends State<MyShopItem> {
                         SaveSharedPreference().getUser().then(
                           (valueUser) {
                             provider.addItemToPersonCart(
-                              CartsTableCompanion.insert(
-                                userId: valueUser!.id,
-                                itemId: widget.item.id,
-                              ),
+                              userId: valueUser!.id,
+                              itemId: widget.item.id,
                             );
                           },
                         );

@@ -82,7 +82,6 @@ class _ShopPageState extends State<ShopPage> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done &&
                       snapshot.data!.isNotEmpty) {
-                    print("SNAPSHOT VALUE: ${snapshot.data}");
                     return ListView.builder(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
@@ -91,8 +90,6 @@ class _ShopPageState extends State<ShopPage> {
                         context,
                         index,
                       ) {
-                        print(
-                            "SNAPSHOT LISTBUILDER: ${snapshot.data!.elementAt(index)}");
                         return MyShopItem(
                           item: snapshot.data!.elementAt(index),
                         );

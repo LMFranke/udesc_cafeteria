@@ -23,8 +23,7 @@ class MyCartItem extends StatefulWidget {
 class _MyCartItemState extends State<MyCartItem> {
   @override
   Widget build(BuildContext context) {
-    String subtitle =
-        widget.isSend ? "Enviado!" : "R\$${widget.item.item.price.toString()}";
+    String subtitle = widget.isSend ? "Enviado!" : "R\$${widget.item.item.price.toString()}";
     Color? iconColor = widget.isSend ? Colors.green : Colors.grey[600];
 
     return Consumer<MyProvider>(
@@ -46,7 +45,6 @@ class _MyCartItemState extends State<MyCartItem> {
               setState(() {
                 widget.isSend = true;
                 provider.updateItemSent(widget.item.id);
-                // provider.addItemSent(CartsSentTableCompanion.insert(itemSentId: widget.item.id));
               });
             },
             icon: Icon(

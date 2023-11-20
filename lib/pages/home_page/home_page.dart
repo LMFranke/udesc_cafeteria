@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:udesc_v2/components/bottom_nav_bar.dart';
-import 'package:udesc_v2/pages/auth_pages/login_page.dart';
 import 'package:udesc_v2/pages/home_page/shop_page.dart';
 import 'package:udesc_v2/storage/shared_preference.dart';
 

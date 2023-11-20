@@ -152,17 +152,6 @@ class _LoginPageState extends State<LoginPage> {
                       );
                     }
                   },
-                  onLongPress: () async {
-                    await provider.getAllUsers().then(
-                      (value) {
-                        print(value);
-                      },
-                    );
-                  },
-                  onDoubleTap: () {
-                    provider.addAdm(AdmUserTableCompanion.insert(userId: 1));
-                    print("adm add!");
-                  },
                 ),
               ),
               Padding(
@@ -182,7 +171,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

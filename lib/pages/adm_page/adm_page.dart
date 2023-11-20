@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:udesc_v2/components/bottom_nav_bar.dart';
-import 'package:udesc_v2/pages/adm_page/items_page.dart';
-import 'package:udesc_v2/pages/adm_page/requests_page.dart';
+import 'package:udesc_v2/pages/adm_page/adm_items_page.dart';
+import 'package:udesc_v2/pages/adm_page/adm_requests_page.dart';
 
 import '../../storage/shared_preference.dart';
 import '../auth_pages/login_page.dart';

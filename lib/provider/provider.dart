@@ -27,27 +27,35 @@ class MyProvider extends ChangeNotifier {
     return await database.getAllAdmId;
   }
 
-  void addUser(UserTableCompanion person) {
-    database.addPerson(person);
+  void addUser({required String name, required String email, required String password}) {
+    database.addPerson(UserTableCompanion.insert(
+      name: name,
+      email: email,
+      password: password,
+    ));
     notifyListeners();
   }
 
-  void addItemToPersonCart(CartsTableCompanion itemPerson) {
-    database.addItemToPerson(itemPerson);
+  void addItemToPersonCart({required int userId, required int itemId}) {
+    database.addItemToPerson(CartsTableCompanion.insert(
+      userId: userId,
+      itemId: itemId,
+    ));
   }
 
-  void addItem(ItemShoppingTableCompanion item) {
-    database.addItem(item);
+  void addItem({required String name, required String price, required String urlImage}) {
+    database.addItem(ItemShoppingTableCompanion.insert(
+      name: name,
+      price: double.parse(price),
+      urlImage: urlImage,
+    ));
     notifyListeners();
   }
 
-  void addAdm(AdmUserTableCompanion adm) {
-    database.addAdm(adm);
-    notifyListeners();
-  }
-
-  void addItemSent(CartsSentTableCompanion itemSent) {
-    database.addItemSent(itemSent);
+  void addAdm({required int id}) {
+    database.addAdm(AdmUserTableCompanion.insert(
+      userId: id,
+    ));
     notifyListeners();
   }
 
@@ -132,15 +140,17 @@ class MyProvider extends ChangeNotifier {
     for (int i = 0; i < cartsPerson.length; i++) {
       var cartId = await database.getCartById(cartsPerson.elementAt(i).itemId);
 
-      list.add(UserRequestItem(
-        id: cartsPerson.elementAt(i).id,
-        item: Item(
-          id: cartId.first.id,
-          imageUrl: cartId.first.urlImage,
-          name: cartId.first.name,
-          price: cartId.first.price,
+      list.add(
+        UserRequestItem(
+          id: cartsPerson.elementAt(i).id,
+          item: Item(
+            id: cartId.first.id,
+            imageUrl: cartId.first.urlImage,
+            name: cartId.first.name,
+            price: cartId.first.price,
+          ),
         ),
-      ));
+      );
     }
 
     return list;
@@ -152,12 +162,14 @@ class MyProvider extends ChangeNotifier {
 
     if (list.isNotEmpty) {
       for (int i = 0; i < list.length; i++) {
-        listItems.add(Item(
-          id: list.elementAt(i).id,
-          imageUrl: list.elementAt(i).urlImage,
-          name: list.elementAt(i).name,
-          price: list.elementAt(i).price,
-        ));
+        listItems.add(
+          Item(
+            id: list.elementAt(i).id,
+            imageUrl: list.elementAt(i).urlImage,
+            name: list.elementAt(i).name,
+            price: list.elementAt(i).price,
+          ),
+        );
       }
     }
 
@@ -168,8 +180,13 @@ class MyProvider extends ChangeNotifier {
     database.updateItemsFromPerson(itemId);
   }
 
-  void updateItem(ItemShoppingTableData item) async {
-    database.updateItem(item);
+  void updateItem({required int id, required String name, required double price, required String urlImage}) async {
+    database.updateItem(ItemShoppingTableData(
+      id: id,
+      name: name,
+      price: price,
+      urlImage: urlImage,
+    ));
     notifyListeners();
   }
 

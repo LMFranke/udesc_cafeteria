@@ -25,8 +25,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
   final GlobalKey<FormState> _formKey = GlobalKey();
 
-  // final MyDatabase db = MyDatabase();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -204,14 +202,45 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     onTap: () {
-                      print("Register click!");
                       if (_formKey.currentState!.validate()) {
-                        print("valideted!");
-                        provider.addUser(
-                          UserTableCompanion.insert(
-                            name: nameController.text,
-                            email: emailController.text,
-                            password: passwordController.text,
+                        provider.getAllUsers().then(
+                          (value) {
+                            provider.addUser(
+                              name: nameController.text,
+                              email: emailController.text,
+                              password: passwordController.text,
+                            );
+                            if (value.isEmpty) {
+                              provider.addAdm(
+                                id: 1,
+                              );
+                            }
+                          },
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[600],
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  padding: const EdgeInsets.all(8),
+                                  child: const Text(
+                                    "Register!",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            backgroundColor: Colors.transparent,
+                            elevation: 0,
                           ),
                         );
                       }

@@ -36,7 +36,6 @@ class _RequestsPageState extends State<RequestsPage> {
                   future: provider.getAllSendItems(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
-                      print("SNAPSHOT VALUE: ${snapshot.data}");
                       return ListView.builder(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
@@ -45,8 +44,6 @@ class _RequestsPageState extends State<RequestsPage> {
                             context,
                             index,
                             ) {
-                          print(
-                              "SNAPSHOT LISTBUILDER: ${snapshot.data!.elementAt(index)}");
                           return MyRequestItem(
                             item: snapshot.data!.elementAt(index),
                           );

@@ -1,11 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:udesc_v2/components/snack_bar.dart';
-import 'package:udesc_v2/database/database.dart';
 import 'package:udesc_v2/provider/provider.dart';
-import 'package:udesc_v2/storage/shared_preference.dart';
 
 import '../model/item.dart';
 

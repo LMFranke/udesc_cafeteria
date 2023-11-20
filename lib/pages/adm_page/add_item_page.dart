@@ -54,8 +54,7 @@ class _AddItemPageState extends State<AddItemPage> {
                   ),
                   controller: nameController,
                   validator: (value) {
-                    if (nameController.text.isEmpty ||
-                        nameController.text == null) {
+                    if (nameController.text.isEmpty) {
                       return "Item name field is empty";
                     }
                     return null;
@@ -82,8 +81,7 @@ class _AddItemPageState extends State<AddItemPage> {
                   ),
                   controller: priceController,
                   validator: (value) {
-                    if (priceController.text.isEmpty ||
-                        priceController.text == null) {
+                    if (priceController.text.isEmpty) {
                       return "Item price field is empty";
                     }
                     return null;
@@ -139,8 +137,7 @@ class _AddItemPageState extends State<AddItemPage> {
                   ),
                   controller: urlImageController,
                   validator: (value) {
-                    if (urlImageController.text.isEmpty ||
-                        urlImageController.text == null) {
+                    if (urlImageController.text.isEmpty) {
                       return "Item url image field is empty";
                     }
                     return null;
@@ -205,11 +202,9 @@ class _AddItemPageState extends State<AddItemPage> {
                       onTap: () {
                         if (_formKey.currentState!.validate()) {
                           provider.addItem(
-                            ItemShoppingTableCompanion.insert(
-                              name: nameController.text,
-                              price: double.parse(priceController.text),
-                              urlImage: urlImageController.text,
-                            ),
+                            name: nameController.text,
+                            price: priceController.text,
+                            urlImage: urlImageController.text,
                           );
                         }
                       },

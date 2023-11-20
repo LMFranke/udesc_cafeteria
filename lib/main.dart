@@ -10,29 +10,16 @@ import 'package:udesc_v2/provider/provider.dart';
 
 void main() {
   runApp(
-    // MultiProvider(
-    //   providers: [
-    //     Provider(
-    //       create: (context) => MyDatabase(),
-    //     ),
-    //     ChangeNotifierProvider(
-    //       create: (context) => CartProvider(),
-    //     ),
-    //   ],
-    //   child: const MyApp(),
-    // ),
       ChangeNotifierProvider(create: (context) => MyProvider(), child: const MyApp(),)
   );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Udesc',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
