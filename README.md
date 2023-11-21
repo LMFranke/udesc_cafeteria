@@ -1,16 +1,39 @@
-# udesc_v2
+# Udesc Cafeteria
 
 Project to UDESC
 
-## Getting Started
+## About
 
-This project is a starting point for a Flutter application.
+This project is my first project on Flutter, I did it for a project for my higher education course.
 
-A few resources to get you started if this is your first Flutter project:
+## What did I used
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+For this project I used these dependencies:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+-google_nav_bar;
+
+-provider;
+
+-drift;
+
+-sqlite3_flutter_libs;
+
+-path_provider;
+
+-path;
+
+-intl;
+
+-shared_preferences;
+
+## For what I used it
+
+-The 'google_nav_bar' I used it to navigate between the menu screen and the requests screen;
+
+-The 'provider', 'path', 'path_provider' I used it to update the screen whenever there was a change;
+
+-The 'sqlite3_flutter_libs', 'drift' I used it to be the local database, I choose to only do it locally because it would save me a lot of time;
+
+-The 'shared_preferences' I used it to save the user's configs;
+
+## Screenshots
