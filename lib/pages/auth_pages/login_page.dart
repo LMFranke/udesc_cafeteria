@@ -34,7 +34,6 @@ class _LoginPageState extends State<LoginPage> {
                 height: 200,
                 child: Image.asset(
                   "assets/images/udesc_logo.png",
-                  color: Colors.grey[700],
                 ),
               ),
               Padding(
