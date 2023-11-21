@@ -2,6 +2,8 @@
 
 Project to UDESC
 
+This project is not fully functional due to the fact that it does not use a cloud database like Firebase, I chose to do something locally as it was supposed to be something simple, just for a university project.
+
 ## About
 
 This project is my first project on Flutter, I did it for a project for my higher education course.
@@ -30,7 +32,7 @@ This project is my first project on Flutter, I did it for a project for my highe
 
 * The 'provider', 'path', 'path_provider' I used it to update the screen whenever there was a change;
 
-* The 'sqlite3_flutter_libs', 'drift' I used it to be the local database, I choose to only do it locally because it would save me a lot of time;
+* The 'sqlite3_flutter_libs', 'drift' I used it to be the local database;
 
 * The 'shared_preferences' I used it to save the user's configs;
 
