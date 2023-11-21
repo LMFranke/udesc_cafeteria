@@ -66,7 +66,8 @@ class _RequestsPageState extends State<RequestsPage> {
                           height: 50,
                           width: 50,
                           child: CircularProgressIndicator(
-                              color: Colors.grey[800]),
+                              color: Colors.grey[800],
+                          ),
                         ),
                       );
                     }

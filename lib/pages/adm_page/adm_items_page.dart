@@ -37,7 +37,8 @@ class _ItemsPageState extends State<ItemsPage> {
               alignment: Alignment.center,
               child: Text(
                 "Shop Item Preview",
-                style: TextStyle(fontSize: 18, color: Colors.grey[900]),
+                style: TextStyle(fontSize: 18, color: Colors.grey[900],
+                ),
               ),
             ),
           ),
@@ -50,7 +51,6 @@ class _ItemsPageState extends State<ItemsPage> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.data!.isNotEmpty) {
-                  print("SNAPSHOT VALUE: ${snapshot.data}");
                   return ListView.builder(
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
@@ -59,8 +59,6 @@ class _ItemsPageState extends State<ItemsPage> {
                       context,
                       index,
                     ) {
-                      print(
-                          "SNAPSHOT LISTBUILDER: ${snapshot.data!.elementAt(index)}");
                       return GestureDetector(
                         child: MyShopItemPreview(
                           item: snapshot.data!.elementAt(index),
@@ -83,7 +81,8 @@ class _ItemsPageState extends State<ItemsPage> {
                     child: SizedBox(
                       height: 50,
                       width: 50,
-                      child: CircularProgressIndicator(color: Colors.grey[800]),
+                      child: CircularProgressIndicator(color: Colors.grey[800],
+                      ),
                     ),
                   );
                 }
@@ -121,7 +120,8 @@ class _ItemsPageState extends State<ItemsPage> {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
-            child: Divider(color: Colors.grey[100]),
+            child: Divider(color: Colors.grey[100],
+            ),
           ),
         ],
       ),

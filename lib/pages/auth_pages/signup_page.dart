@@ -43,7 +43,7 @@ class _SignUpPageState extends State<SignUpPage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                  child: Image.asset("assets/images/nike_logo.png"),
+                  child: Image.asset("assets/images/udesc_logo.png"),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -61,8 +61,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     controller: nameController,
                     validator: (value) {
-                      if (nameController.text.isEmpty ||
-                          nameController.text == null) {
+                      if (nameController.text.isEmpty) {
                         return "Name field is empty";
                       }
                       return null;
@@ -89,8 +88,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     controller: emailController,
                     validator: (value) {
-                      if (!emailController.text.contains("@")) {
-                        return "Email field is empty";
+                      if (!emailController.text.contains("@") || !emailController.text.contains(".com")) {
+                        return "Email field is invalid";
                       }
                       return null;
                     },
@@ -124,8 +123,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     validator: (value) {
-                      if (passwordController.text.isEmpty ||
-                          passwordController.text == null) {
+                      if (passwordController.text.isEmpty) {
                         return "Password field is empty";
                       }
                       if (passwordController.text !=
@@ -165,8 +163,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     validator: (value) {
-                      if (passwordController.text.isEmpty ||
-                          passwordController.text == null) {
+                      if (passwordController.text.isEmpty) {
                         return "Password field is empty";
                       }
                       if (passwordController.text !=

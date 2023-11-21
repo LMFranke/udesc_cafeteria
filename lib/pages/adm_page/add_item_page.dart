@@ -115,14 +115,17 @@ class _AddItemPageState extends State<AddItemPage> {
                               children: [
                                 Container(
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      color: Colors.grey[100]),
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Colors.grey[100],
+                                  ),
                                   padding: const EdgeInsets.all(8),
                                   child: Text(
                                     "Put the URL of an image in this field",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        color: Colors.grey[800], fontSize: 16),
+                                      color: Colors.grey[800],
+                                      fontSize: 16,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -158,8 +161,9 @@ class _AddItemPageState extends State<AddItemPage> {
                         width: 105,
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.grey[600]),
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.grey[600],
+                        ),
                         child: const Text(
                           "Preview",
                           textAlign: TextAlign.center,
@@ -190,13 +194,16 @@ class _AddItemPageState extends State<AddItemPage> {
                         width: 200,
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.grey[600]),
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.grey[600],
+                        ),
                         child: const Text(
                           "Add Item",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
+                              color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       onTap: () {

@@ -34,8 +34,7 @@ class _CartPageState extends State<CartPage> {
                 child: FutureBuilder(
                   future: provider.getItemsFromPerson(),
                   builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done &&
-                        snapshot.data!.isNotEmpty) {
+                    if (snapshot.connectionState == ConnectionState.done && snapshot.data!.isNotEmpty) {
                       return ListView.builder(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
@@ -50,9 +49,7 @@ class _CartPageState extends State<CartPage> {
                           );
                         },
                       );
-                    } else if (snapshot.connectionState ==
-                            ConnectionState.done &&
-                        snapshot.data!.isEmpty) {
+                    } else if (snapshot.connectionState == ConnectionState.done && snapshot.data!.isEmpty) {
                       return const Center(
                         child: Text(
                           "You haven't any item on your cart yet",
@@ -67,7 +64,8 @@ class _CartPageState extends State<CartPage> {
                           height: 50,
                           width: 50,
                           child: CircularProgressIndicator(
-                              color: Colors.grey[800]),
+                              color: Colors.grey[800],
+                          ),
                         ),
                       );
                     }

@@ -161,7 +161,8 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Text(
                       "Don't have an account yet? ",
-                      style: TextStyle(color: Colors.grey[800]),
+                      style: TextStyle(color: Colors.grey[800],
+                      ),
                     ),
                     TextButton(
                       onPressed: () {

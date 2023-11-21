@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:udesc_v2/components/shop_item.dart';
-import 'package:udesc_v2/database/database.dart';
 import 'package:udesc_v2/provider/provider.dart';
 import 'package:udesc_v2/storage/shared_preference.dart';
 
@@ -18,29 +17,18 @@ class _ShopPageState extends State<ShopPage> {
     return Consumer<MyProvider>(
       builder: (context, provider, child) => Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
-            child: Container(
-              padding: const EdgeInsets.only(
-                top: 8,
-                bottom: 8,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.grey[100],
-                border: Border.all(color: Colors.grey, width: 0),
-              ),
-              constraints:
-                  const BoxConstraints.tightFor(width: double.infinity),
-              alignment: Alignment.center,
-              child: Text(
-                "Random text to fill",
-                style: TextStyle(fontSize: 18, color: Colors.grey[900]),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25.0),
+            child: Text(
+              "Shop",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
               ),
             ),
           ),
           const SizedBox(
-            height: 50,
+            height: 30,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -62,7 +50,8 @@ class _ShopPageState extends State<ShopPage> {
                             "\n id: ${value?.id}"
                             "\n name: ${value?.name}"
                             "\n email: ${value?.email}"
-                            "\n password: ${value?.password}");
+                            "\n password: ${value?.password}",
+                        );
                       },
                     );
                   },
@@ -80,8 +69,7 @@ class _ShopPageState extends State<ShopPage> {
               child: FutureBuilder(
                 future: provider.getShopItems(),
                 builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done &&
-                      snapshot.data!.isNotEmpty) {
+                  if (snapshot.connectionState == ConnectionState.done && snapshot.data!.isNotEmpty) {
                     return ListView.builder(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
@@ -103,7 +91,8 @@ class _ShopPageState extends State<ShopPage> {
                         height: 50,
                         width: 50,
                         child:
-                            CircularProgressIndicator(color: Colors.grey[800]),
+                            CircularProgressIndicator(color: Colors.grey[800],
+                        ),
                       ),
                     );
                   }
@@ -113,7 +102,8 @@ class _ShopPageState extends State<ShopPage> {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 35.0),
-            child: Divider(color: Colors.grey[100]),
+            child: Divider(color: Colors.grey[100],
+            ),
           ),
         ],
       ),

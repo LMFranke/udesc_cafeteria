@@ -93,14 +93,17 @@ class _MyShopItemState extends State<MyShopItem> {
                               children: [
                                 Container(
                                   decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.circular(8)),
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
                                   padding: const EdgeInsets.all(8),
                                   child: const Text(
                                     "Item add",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 16),
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
                                   ),
                                 ),
                               ],

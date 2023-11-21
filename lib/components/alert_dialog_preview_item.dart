@@ -35,12 +35,14 @@ class _AlertDialogPreviewItemState extends State<AlertDialogPreviewItem> {
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: Colors.grey[600]),
+                color: Colors.grey[600],
+            ),
             child: const Text(
               "Ok",
               textAlign: TextAlign.center,
               style: TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.bold),
+                  color: Colors.white, fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           onTap: () {

@@ -26,6 +26,11 @@ class _AlertDialogEditItemState extends State<AlertDialogEditItem> {
 
   @override
   Widget build(BuildContext context) {
+
+    nameController.text = widget.item.name;
+    priceController.text = widget.item.price.toString();
+    urlImageController.text = widget.item.imageUrl;
+
     return Consumer<MyProvider>(
       builder: (context, provider, child) => Form(
         key: _formKey,
@@ -51,12 +56,12 @@ class _AlertDialogEditItemState extends State<AlertDialogEditItem> {
                     ),
                   ),
                   controller: nameController,
-                  validator: (value) {
-                    if (nameController.text.isEmpty) {
-                      return "Item name field is empty";
-                    }
-                    return null;
-                  },
+                  // validator: (value) {
+                  //   if (nameController.text.isEmpty) {
+                  //     return "Item name field is empty";
+                  //   }
+                  //   return null;
+                  // },
                   focusNode: focusNodeName,
                 ),
                 const SizedBox(
@@ -72,12 +77,12 @@ class _AlertDialogEditItemState extends State<AlertDialogEditItem> {
                     ),
                   ),
                   controller: priceController,
-                  validator: (value) {
-                    if (priceController.text.isEmpty) {
-                      return "Item price field is empty";
-                    }
-                    return null;
-                  },
+                  // validator: (value) {
+                  //   if (priceController.text.isEmpty) {
+                  //     return "Item price field is empty";
+                  //   }
+                  //   return null;
+                  // },
                   keyboardType: TextInputType.number,
                   focusNode: focusNodePrice,
                 ),
@@ -102,13 +107,15 @@ class _AlertDialogEditItemState extends State<AlertDialogEditItem> {
                                 Container(
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(8),
-                                      color: Colors.grey[100]),
+                                      color: Colors.grey[100],
+                                  ),
                                   padding: const EdgeInsets.all(8),
                                   child: Text(
                                     "Put the URL of an image in this field",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        color: Colors.grey[800], fontSize: 16),
+                                        color: Colors.grey[800], fontSize: 16,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -122,12 +129,12 @@ class _AlertDialogEditItemState extends State<AlertDialogEditItem> {
                     ),
                   ),
                   controller: urlImageController,
-                  validator: (value) {
-                    if (urlImageController.text.isEmpty) {
-                      return "Item url image field is empty";
-                    }
-                    return null;
-                  },
+                  // validator: (value) {
+                  //   if (urlImageController.text.isEmpty) {
+                  //     return "Item url image field is empty";
+                  //   }
+                  //   return null;
+                  // },
                   focusNode: focusNodeUrlImage,
                 ),
               ],
@@ -139,7 +146,8 @@ class _AlertDialogEditItemState extends State<AlertDialogEditItem> {
                 width: 75,
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8), color: Colors.red),
+                    borderRadius: BorderRadius.circular(8), color: Colors.red,
+                ),
                 child: const Text(
                   "Delete",
                   textAlign: TextAlign.center,
@@ -157,7 +165,8 @@ class _AlertDialogEditItemState extends State<AlertDialogEditItem> {
                 width: 75,
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8), color: Colors.green),
+                    borderRadius: BorderRadius.circular(8), color: Colors.green,
+                ),
                 child: const Text(
                   "Save",
                   textAlign: TextAlign.center,
@@ -167,11 +176,18 @@ class _AlertDialogEditItemState extends State<AlertDialogEditItem> {
               ),
               onTap: () {
                 if (_formKey.currentState!.validate()) {
+
+                  String price = priceController.text;
+
+                  if (price.contains(',')) {
+                    price = price.replaceAll(",", ".");
+                  }
+
                   provider.updateItem(
                     id: widget.item.id,
-                    name: widget.item.name,
-                    price: widget.item.price,
-                    urlImage: widget.item.imageUrl,
+                    name: nameController.text,
+                    price: double.parse(price),
+                    urlImage: urlImageController.text,
                   );
                   Navigator.of(context).pop();
                 }

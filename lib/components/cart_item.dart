@@ -36,7 +36,17 @@ class _MyCartItemState extends State<MyCartItem> {
         child: ListTile(
           leading: CircleAvatar(
             backgroundColor: Colors.grey[300],
-            child: Text(widget.item.item.name.characters.first),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: Image.network(
+                widget.item.item.imageUrl,
+                errorBuilder: (context, error, stackTrace) =>
+                    CircularProgressIndicator(
+                      color: Colors.grey[600],
+                    ),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
           title: Text(widget.item.item.name),
           subtitle: Text(subtitle),

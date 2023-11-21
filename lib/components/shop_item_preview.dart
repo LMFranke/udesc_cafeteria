@@ -34,15 +34,12 @@ class _MyShopItemPreviewState extends State<MyShopItemPreview> {
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.only(top: 25.0),
-                  decoration: BoxDecoration(),
+                  decoration: const BoxDecoration(),
                   child: Center(
                     child: Image.network(
                       widget.item.imageUrl,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
-                        print(widget.item.imageUrl);
-                        print(error);
-                        print(stackTrace);
                         return CircularProgressIndicator(
                           color: Colors.grey[800],
                         );
@@ -51,48 +48,52 @@ class _MyShopItemPreviewState extends State<MyShopItemPreview> {
                   ),
                 ),
               ),
-              const SizedBox(height: 15),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 25.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.item.name,
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.grey[900],
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[200]
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.item.name,
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.grey[900],
+                            ),
                           ),
-                        ),
-                        Text(
-                          "R\$${widget.item.price.toString()}",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[600],
+                          Text(
+                            "R\$${widget.item.price.toString()}",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[700],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: 60,
-                    width: 60,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[800],
-                      borderRadius: const BorderRadius.only(
-                        bottomRight: Radius.circular(8),
-                        topLeft: Radius.circular(8),
+                        ],
                       ),
                     ),
-                    child: const Icon(
-                      Icons.add,
-                      color: Colors.white,
+                    Container(
+                      height: 60,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[800],
+                        borderRadius: const BorderRadius.only(
+                          bottomRight: Radius.circular(8),
+                          topLeft: Radius.circular(8),
+                        ),
+                      ),
+                      child: const Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

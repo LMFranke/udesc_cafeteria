@@ -11,6 +11,23 @@ class MyProvider extends ChangeNotifier {
   MyDatabase database = MyDatabase();
   SaveSharedPreference prefs = SaveSharedPreference();
 
+  MyProvider() {
+    getAllItems().then(
+      (value) {
+        if (value.isEmpty) {
+          _generateItems();
+        }
+      },
+    );
+  }
+
+  void _generateItems() {
+    addItem(name: "Mini Pizza", price: "8.99", urlImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVtEbuUacxC-6A77SGlWWsvg-5k7uey7z9aA&usqp=CAU");
+    addItem(name: "Croissant", price: "7.50", urlImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQh0g4pdQTeyaNyVdSsDDg3vP3PnP8wE7-qhBfuZNhp9j4AQEs1xvgTgqVhimZGaCbU3M8&usqp=CAU");
+    addItem(name: "Coca Cola", price: "3.50", urlImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlUMw0CtjC-W3VGrgktWxLeqiH8nRI6ECaYA&usqp=CAU");
+    addItem(name: "Café", price: "3.50", urlImage: "https://static1.minhavida.com.br/ingredients/99/bf/be/fd/cafe-e-graos-de-cafe-amp_hero-1.jpg");
+  }
+
   Future<List<ItemShoppingTableData>> getAllItems() async {
     return await database.getAllItems;
   }
