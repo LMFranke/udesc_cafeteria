@@ -8,32 +8,49 @@ This project is my first project on Flutter, I did it for a project for my highe
 
 ## What did I used
 
-For this project I used these dependencies:
+## Dependencies
+<details>
+     <summary> Click to expand </summary>
+     
+* google_nav_bar
+* provider
+* drift
+* sqlite3_flutter_libs
+* path_provider
+* path
+* intl
+* shared_preferences
+     
+</details>
 
--google_nav_bar;
-
--provider;
-
--drift;
-
--sqlite3_flutter_libs;
-
--path_provider;
-
--path;
-
--intl;
-
--shared_preferences;
 
 ## For what I used it
 
--The 'google_nav_bar' I used it to navigate between the menu screen and the requests screen;
+* The 'google_nav_bar' I used it to navigate between the menu screen and the requests screen;
 
--The 'provider', 'path', 'path_provider' I used it to update the screen whenever there was a change;
+* The 'provider', 'path', 'path_provider' I used it to update the screen whenever there was a change;
 
--The 'sqlite3_flutter_libs', 'drift' I used it to be the local database, I choose to only do it locally because it would save me a lot of time;
+* The 'sqlite3_flutter_libs', 'drift' I used it to be the local database, I choose to only do it locally because it would save me a lot of time;
 
--The 'shared_preferences' I used it to save the user's configs;
+* The 'shared_preferences' I used it to save the user's configs;
+
 
 ## Screenshots
+
+Login page                 |  Signup Page               
+:-------------------------:|:-------------------------:
+![](https://github.com/LMFranke/udesc_v2/blob/master/screenshots/user_screen/login_screen.jpg)|![](https://github.com/LMFranke/udesc_v2/blob/master/screenshots/user_screen/sign_up_screen.jpg)|
+
+User shop page           |  User cart Page         |  Drawer 
+:-----------------------:|:-----------------------:|:-------------------------:|
+![](https://github.com/LMFranke/udesc_v2/blob/master/screenshots/user_screen/user_shop_screen.jpg)|![](https://github.com/LMFranke/udesc_v2/blob/master/screenshots/user_screen/user_cart_screen.jpg)|![](https://github.com/LMFranke/udesc_v2/blob/master/screenshots/user_screen/drawer_screen.jpg)|
+
+Adm shop preview page      |  Adm requests page
+:-------------------------:|:-------------------------:|
+![](https://github.com/LMFranke/udesc_v2/blob/master/screenshots/adm_screen/adm_shop_screen.jpg)|![](https://github.com/LMFranke/udesc_v2/blob/master/screenshots/adm_screen/adm_requests_screen.jpg)|
+
+Adm edit item page         |  Adm add item page
+:-------------------------:|:-------------------------:|
+![](https://github.com/LMFranke/udesc_v2/blob/master/screenshots/adm_screen/adm_alert_dialog_edit_item.jpg)|![](https://github.com/LMFranke/udesc_v2/blob/master/screenshots/adm_screen/adm_add_item_screen.jpg)|
+
+
