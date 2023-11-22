@@ -55,4 +55,44 @@ Adm edit item page         |  Adm add item page
 :-------------------------:|:-------------------------:|
 ![](https://github.com/LMFranke/udesc_v2/blob/master/screenshots/adm_screen/adm_alert_dialog_edit_item.jpg)|![](https://github.com/LMFranke/udesc_v2/blob/master/screenshots/adm_screen/adm_add_item_screen.jpg)|
 
+## Directory Structure
+```
+lib
+│───main.dart
+|
+│───model
+│    │──alert_dialog_confirm_item.dart
+|    │──alert_dialog_edit_item.dart
+|    │──alert_dialog_preview_item.dart
+|    │──bottom_nav_bar.dart
+|    │──cart_item.dart
+|    │──request_item.dart
+|    │──shop_tem.dart
+|    └──shop_item_preview.dart
+│───database
+│    │──database.dart
+|    └──database.g.dart
+│───model
+│    │──item.dart
+|    │──person.dart
+|    │──request_item.dart
+|    └──user_request_item.dart
+│───pages
+|    │──adm_page
+|    |   |──add_item_page.dart
+|    |   |──adm_items_pages.dart
+|    |   |──adm_page.dart
+|    |   └──adm_requests_page.dart
+|    │──auth_page
+|    |   |──login_page.dart
+|    |   └──signup_page.dart
+|    └──home_page
+|        |──cart_page.dart
+|        |──home_page.dart
+|        └──shop_page.dart
+│───provider
+|    └──provider.dart
+└───storage
+     └──shared_preference.dart
+```
 
